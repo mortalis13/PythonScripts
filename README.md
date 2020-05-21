@@ -15,7 +15,7 @@ A set of **Python** scripts for various tasks:<br>
 **archive_process** - scan ZIP files and gets their content  
 **convert_encoding** - convert text encoding for all files in a folder  
 **copy_files** - batch copy files with a filter  
-**cue_split** - split FLAC audio files with a CUE list  
+**cue_split** - split FLAC, APE audio files using a CUE-file  
 **directory_structure_duplicate** - make a duplicate of a folder tree without files  
 **dsl_find_largest_article** - search for a longest article body in a DSL dictionary  
 **dsl_get_headwords** - get all headwords in a DSL dictionary  
