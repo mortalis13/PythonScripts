@@ -17,12 +17,14 @@ import pprint
 # (target dir, format)
 
 
+source_formats = ['flac', 'ape', 'wav']
+
+
 class Context(enum.Enum):
   ALBUM = 0
   TRACK = 1
 
 # -- Utils
-
 def normalize_filename(val):
   remove_symbols = [':', '\"', '?', '*', '¿', '¡']
   dash_symbols = ['<', '>', '/', '\\', '|']
@@ -112,10 +114,11 @@ def split_cue(cue_data, no_gap):
 
 def extract_track_ffmpeg(source_format, track_data, total_tracks, source_dir, target_dir, no_gap, dry_run):
   ext = '.' + source_format
-  input_file = source_dir + '/' + track_data['input_file']
+  input_file = os.path.normpath(source_dir + '/' + track_data['input_file'])
   
   add_params = []
   if source_format == 'ape':
+    # cannot convert to ape with ffmpeg
     ext = '.mp3'
     add_params = ['-c:a', 'libmp3lame', '-b:a', '320k']
   
@@ -201,16 +204,31 @@ def main(argv=None):
   with open(args.cuefile, encoding=args.encoding) as cuefile:
     cue = parse_cue_context(list(cuefile))
   
+  source_format = args.source_format
+  
+  # -- fix incorrect extension in cue
+  input_file = cue['input_file']
+  input_file_path = os.path.normpath(source_dir + '/' + input_file)
+  
+  if not os.path.exists(input_file_path):
+    for sf in source_formats:
+      input_temp = os.path.splitext(input_file_path)[0] + '.' + sf
+      if os.path.exists(input_temp):
+        source_format = sf
+        cue['input_file'] = os.path.basename(input_temp)
+        for track in cue['tracks']:
+          track['input_file'] = cue['input_file']
+        break
+  print('source_format: ', source_format)
+  
   tracks = list(split_cue(cue, args.no_gap))
   total_tracks = len(tracks)
   track_numbers = list(map(int, args.track_numbers))
   
-  for track in tracks:
-    if track_numbers and track['track_number'] not in track_numbers:
+  for track_data in tracks:
+    if track_numbers and track_data['track_number'] not in track_numbers:
       continue
-    
-    extract_track_ffmpeg(args.source_format, track, total_tracks, source_dir, args.target_dir, args.no_gap, args.dry_run)
-    # extract_track_avconv(args.source_format, track, total_tracks, source_dir, args.target_dir, args.no_gap, args.dry_run)
+    extract_track_ffmpeg(source_format, track_data, total_tracks, source_dir, args.target_dir, args.no_gap, args.dry_run)
 
 
 if __name__ == '__main__':
