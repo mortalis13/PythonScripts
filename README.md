@@ -13,10 +13,10 @@ A set of **Python** scripts for various tasks:<br>
 **addons_download** - downloader for Firefox addons by direct URLs  
 **addons_parse** - get Firefox addons direct links from search pages  
 **archive_process** - scan ZIP files and gets their content  
-**bankia_api** - show bank account balance and last operations
+**bankia_api** - show bank account balance and last operations  
 **convert_encoding** - convert text encoding for all files in a folder  
 **copy_files** - batch copy files with a filter  
-**covid_stat_csv** - show world statistics on COVID-19 spread
+**covid_stat_csv** - show world statistics on COVID-19 spread  
 **cue_split** - split FLAC, APE audio files using a CUE-file  
 **directory_structure_duplicate** - make a duplicate of a folder tree without files  
 **dsl_find_largest_article** - search for a longest article body in a DSL dictionary  
@@ -26,7 +26,7 @@ A set of **Python** scripts for various tasks:<br>
 **fuse_download** - downloader for Fender FUSE presets by direct links  
 **generate_unicode_char_from_ranges** - write Unicode chars having a list of code ranges  
 **get_java_imports** - extract Java imports from a directory  
-**gmail_api-remove_unread** - remove unread messages from a Gmail account using Gmail API
+**gmail_api-remove_unread** - remove unread messages from a Gmail account using Gmail API  
 **merge_files** - combine multiple files into one  
 **parse_html** - walk through an HTML elements tree and extract information  
 **pdf_merge** - combine multiple PDF or image files  
