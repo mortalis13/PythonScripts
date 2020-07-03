@@ -181,7 +181,7 @@ def run():
       print('..ERROR during conversion')
       print('importe:', importe)
     
-    ops.append('{:<+6.2f} :: {} :: "{}"'.format(importe, fecha, concepto))
+    ops.append('{:<+8.2f} :: {} :: "{}"'.format(importe, fecha, concepto))
     # ops.append('{} :: {} :: "{}"'.format('{:+06.2f}'.format(importe), fecha, concepto))
     
   
