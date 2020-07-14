@@ -141,18 +141,22 @@ def run():
   
   # ====== Operations
   print('\n>> Calling /movimiento-grid')
+  ops = []
   fechaOperacionDesde = (datetime.now() + timedelta(days=-60)).strftime('%Y-%m-%d')
   fechaOperacionHasta = datetime.now().strftime('%Y-%m-%d')
   LIM_OPERATIONS = 10
   
   data = {
     "identificadorCuenta": {
+      "pais": "ES",
+      "digitosDeControl": "61",
       "identificador": identificadorContratoProducto[4:]
     },
     "criteriosBusquedaCuenta": {
       "cantidadUltimosMovimientos": LIM_OPERATIONS
     }
   }
+  
   data = json.dumps(data)
   print('  data:')
   print(data)
@@ -165,24 +169,23 @@ def run():
   if not res or not 'movimientos' in res:
     print('\n..ERROR /movimiento-grid')
     print(res)
-    return
-  
-  ops = []
-  movimientos = res['movimientos']
-  for mov in movimientos:
-    concepto        = mov['conceptoMovimiento']['descripcionConcepto']
-    fecha           = mov['fechaMovimiento']['valor']
-    importe         = mov['importe']['importeConSigno']
-    numeroDecimales = mov['importe']['numeroDecimales']
-    
-    try:
-      importe = importe/(10**numeroDecimales) if numeroDecimales > 0 else importe
-    except:
-      print('..ERROR during conversion')
-      print('importe:', importe)
-    
-    ops.append('{:<+8.2f} :: {} :: "{}"'.format(importe, fecha, concepto))
-    # ops.append('{} :: {} :: "{}"'.format('{:+06.2f}'.format(importe), fecha, concepto))
+    # return
+  else:
+    movimientos = res['movimientos']
+    for mov in movimientos:
+      concepto        = mov['conceptoMovimiento']['descripcionConcepto']
+      fecha           = mov['fechaMovimiento']['valor']
+      importe         = mov['importe']['importeConSigno']
+      numeroDecimales = mov['importe']['numeroDecimales']
+      
+      try:
+        importe = importe/(10**numeroDecimales) if numeroDecimales > 0 else importe
+      except:
+        print('..ERROR during conversion')
+        print('importe:', importe)
+      
+      ops.append('{:<+8.2f} :: {} :: "{}"'.format(importe, fecha, concepto))
+      # ops.append('{} :: {} :: "{}"'.format('{:+06.2f}'.format(importe), fecha, concepto))
     
   
   # ====== OUTPUT
