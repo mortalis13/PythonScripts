@@ -1,4 +1,3 @@
-
 # Replaces a string in all files in a folder
 
 import os, re, codecs

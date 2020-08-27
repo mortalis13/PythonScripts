@@ -1,7 +1,5 @@
-
 # Extract a list of Java 'import' statements
 # from all .java files in a folder and its subfolders
-
 
 import os, re, codecs, subprocess, time, random
 import shutil, stat, errno, sys, ssl, traceback

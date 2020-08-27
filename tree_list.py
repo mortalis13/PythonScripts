@@ -1,6 +1,4 @@
-
 # Writes file tree to a text file
-
 
 import os, codecs
 

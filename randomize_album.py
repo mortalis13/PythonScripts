@@ -1,7 +1,5 @@
-
 # Get random album from a folder (also scans subfolders)
 # and copy it to another directory
-
 
 import random, subprocess, shutil
 

@@ -1,7 +1,5 @@
-
 # Retreives author and subject metadata from PDF files
 # and renames files according to a pattern
-
 
 import os, re, codecs, subprocess
 import shutil, stat, errno, sys

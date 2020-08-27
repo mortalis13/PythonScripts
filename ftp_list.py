@@ -1,8 +1,6 @@
-
 # Write list of files/folders in a FTP directory
 # (directly in a folder or recursively get subtree)
 # Tries to convert names with non-UTF russian characters
-
 
 import os, re, codecs, subprocess
 import shutil, stat, errno, sys, traceback

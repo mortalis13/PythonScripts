@@ -1,4 +1,3 @@
-
 # Convert russian encodings in files inside a diectory 'd'
 
 import os, re, codecs, subprocess

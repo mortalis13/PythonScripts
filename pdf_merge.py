@@ -1,8 +1,6 @@
-
 # Merges files into 1 PDF
 # 'd' - directory with files
 # Input files are separate PDFs or images
-
 
 # -- pip install fpdf
 # -- pip install pypdf2

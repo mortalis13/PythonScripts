@@ -1,4 +1,3 @@
-
 # Batch downloader for Firefox addons
 # Put direct URLs to a text file ('addons_1.txt') and run
 # Download links are generated with 'addons_parse.py'

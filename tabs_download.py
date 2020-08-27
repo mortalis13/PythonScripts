@@ -1,8 +1,6 @@
-
 # Batch downloader for guitar tabs from ultimate-guitar.com
 # Needs text files with direct tabs urls generated in a separate script
 # Performs downloads by parts
-
 
 import os, re, codecs, subprocess
 import time, random

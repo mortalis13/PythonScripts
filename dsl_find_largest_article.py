@@ -1,7 +1,5 @@
-
 # Finds artcle with max body size
 # in a DSL dictionary
-
 
 import os, re, codecs, subprocess
 import time, random, requests

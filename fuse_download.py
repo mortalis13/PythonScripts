@@ -1,7 +1,5 @@
-
 # Download Fender FUSE presets with wget
 # using a text file with direct links
-
 
 import os, re, codecs, subprocess
 from time import sleep

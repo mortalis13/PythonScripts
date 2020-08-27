@@ -1,6 +1,4 @@
-
 # Combine text files in a folder into 1 file
-
 
 import os, re, codecs, subprocess
 

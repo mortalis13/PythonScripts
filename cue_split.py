@@ -1,3 +1,10 @@
+# Splits an audio file (FLAC, APE or WAV) using a CUE list
+# (a .cue file next to an audio file)
+
+# Call as:
+#   python cue-split.py [OPTIONS] "file.cue"
+# OPTIONS: -d, -f -> (target dir, format)
+
 import argparse
 import datetime
 import enum
@@ -10,11 +17,6 @@ import sys
 import tempfile
 
 import pprint
-
-# -- Working edited version
-# $ python cue-split.py [OPTIONS] "file.cue"
-# -d -f
-# (target dir, format)
 
 
 source_formats = ['flac', 'ape', 'wav']

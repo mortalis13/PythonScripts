@@ -1,7 +1,5 @@
-
 # Reformat CSV files from a folder
 # and create a new combined CSV
-
 
 import os, re, codecs, subprocess
 

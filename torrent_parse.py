@@ -1,6 +1,4 @@
-
 # Parses .torrent files and writes its structure to a text file
-
 
 # -- pip install torrent_parser
 

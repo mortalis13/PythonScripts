@@ -1,7 +1,5 @@
-
 # Parses Firefox addons pages and extracts direct download links for .xpi files
 # Used in the 'addons_download.py' script
-
 
 import os, re, codecs, subprocess
 import shutil, stat, errno, sys, http

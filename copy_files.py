@@ -1,7 +1,5 @@
-
 # Copy Eclipse project folders from source list to a dest directory
 # Ignore some folders to copy only core data
-
 
 import os, re, codecs, subprocess
 import shutil, stat, errno, sys

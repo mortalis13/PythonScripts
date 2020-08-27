@@ -1,9 +1,7 @@
-
 # HTML pages parser
 # Loads page URLs from a list
 # As a test loads GuitarPro tab ids from ultimate-guitar.com
 # and writes the to a text file
-
 
 from pyquery import PyQuery as pq
 from lxml import etree

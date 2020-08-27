@@ -1,7 +1,5 @@
-
 # Gets dictionary headwords from a list of DSL files
 # Headwords are not indented with tabs/spaces (as article bodies are)
-
 
 import os, re, codecs, subprocess
 import time, random, requests

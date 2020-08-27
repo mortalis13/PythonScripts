@@ -1,7 +1,5 @@
-
 # Direct file downloader
 # Uses a text file with list of URLs
-
 
 import requests, re, codecs, os
 

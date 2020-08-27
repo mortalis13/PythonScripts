@@ -1,3 +1,6 @@
+# Shows the account balance and last operations
+# using the GET/POST HTTP requests to a specific API
+
 import os, re, codecs, subprocess, json
 import shutil, stat, errno, sys, http, time
 import requests
@@ -10,9 +13,6 @@ from base64 import b64decode, b64encode
 # pip install pycryptodome
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5
-
-
-# Show the account balance and last operations
 
 
 def run():

@@ -1,7 +1,5 @@
-
 # Write names of zip files containing 'manifest.json' file
 # Used for XPI files (which are zip-like archives and Firefox addon files)
-
 
 import re, codecs, os
 import zipfile

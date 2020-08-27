@@ -2,7 +2,6 @@
 # Adds files size to the their names
 # Set the 'from_path' and 'out_path' variables before running
 
-
 import os, re, codecs, subprocess
 import shutil, stat, errno, sys, traceback
 

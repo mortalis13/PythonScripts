@@ -1,16 +1,15 @@
+# Permanently removes unread messages from a Gmail account
+
+# Preparation, from https://developers.google.com/gmail/api/quickstart/python
+# >> pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+# Download 'credentials.json' from 'https://console.developers.google.com -> Credentials'
+
 import os.path
 import pickle
 
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-
-
-# Removes unread messages permanently
-
-# Preparation, from https://developers.google.com/gmail/api/quickstart/python
-# >> pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
-# Download 'credentials.json' from 'https://console.developers.google.com -> Credentials'
 
 
 SCOPES = [

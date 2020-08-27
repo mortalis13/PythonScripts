@@ -1,7 +1,5 @@
-
 # Reads a list of Unicode codepoint ranges from a file
 # and writes the corresponding characters to another file
-
 
 import os, re, codecs, subprocess
 import time, random, requests
