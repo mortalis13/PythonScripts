@@ -27,6 +27,7 @@ A set of **Python** scripts for various tasks:<br>
 **generate_unicode_char_from_ranges** - writes Unicode chars having a list of code ranges  
 **get_java_imports** - extracts Java imports from a directory  
 **gmail_api-remove_unread** - removes unread messages from a Gmail account using Gmail API  
+**google_search** - downloads a page with Google search results
 **merge_files** - combines multiple files into one  
 **parse_html** - walks through HTML elements tree and extracts information  
 **pdf_merge** - combines multiple PDF or image files  
