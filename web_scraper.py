@@ -48,6 +48,7 @@ def run():
     print('URL: ' + url_str)
     text = process_url(url_str)
     f.write(text + '\n')
+    time.sleep(0.2)
   
   f.close()
   
