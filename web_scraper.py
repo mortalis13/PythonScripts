@@ -11,32 +11,43 @@ from pyquery import PyQuery as pq
 # pip install requests pyquery
 
 
-def run():
-  f = codecs.open('e:/links.txt', 'w', 'utf-8')
+def process_url(url_str, list_mode = False):
+  r = requests.get(url_str, headers = {'User-agent': 'your bot 0.1'})
+  # content = r.content
+  d = pq(r.text)
   
-  base_url = 'https://abc.net/forum/viewforum.php?f=1780'
-  max_req = 100
-  start = 0
+  if list_mode:
+    links = d('.course-list-item .content h4 a')
+    text = ''
+    for i in range(links.length):
+      link = links.eq(i)
+      text += link.html().strip() + ' :: ' + link.attr.href + '\n'
+    return text
   
-  for i in range(max_req):
-    url_str = base_url + '&start=' + str(start)
-    start += 50
+  link = d('a.item')
+  link = link.eq(0)
+  href = link.attr.href
+  text = href
+  
+  return text
 
+def run():
+  f = codecs.open('e:/res_links.txt', 'w', 'utf-8')
+  
+  # use generated list of pages or a static urls list
+  prefix = 'https://abc.net/forum?page='
+  urls = [prefix+str(x) for x in range(1,101)]
+  
+  urls = [
+    'http://url-1.net',
+    'http://url-2.net',
+  ]
+  
+  print('total:', len(urls))
+  for url_str in urls:
     print('URL: ' + url_str)
-    r = requests.get(url_str, headers = {'User-agent': 'your bot 0.1'})
-    # content = r.content
-    d = pq(r.text)
-    
-    links = d('a.topic')
-    for j in range(links.length):
-      link = links.eq(j)
-      href = link.attr('href')
-      text = link.text()
-      text = text.replace('\n', ' ')
-      f.write(text + '\n')
-    
-    time.sleep(0.1)
-  # for
+    text = process_url(url_str)
+    f.write(text + '\n')
   
   f.close()
   
