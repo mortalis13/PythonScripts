@@ -12,7 +12,7 @@ from pyquery import PyQuery as pq
 
 
 def process_url(url_str, list_mode = False):
-  r = requests.get(url_str, headers = {'User-agent': 'your bot 0.1'})
+  r = requests.get(url_str, headers={'User-agent':'Magic Browser'})
   # content = r.content
   d = pq(r.text)
   

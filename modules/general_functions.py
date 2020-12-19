@@ -58,4 +58,15 @@ def normalize_filename(val):
     val = val.replace(sym, '-')
     
   return val
-  
+
+def format_size(byte_size, max_unit=''):
+  byte_size = int(byte_size)
+  for unit in ['B', 'K', 'M', 'G', 'T', 'P', 'E', 'Z']:
+    if abs(byte_size) < 1024.0 or unit == max_unit:
+      fmt = '{:.2f} {}'
+      if unit == 'B':
+        fmt = '{:d} {}'
+      res = fmt.format(byte_size, unit)
+      return res
+    byte_size /= 1024.0
+  return '{:.2f} {}'.format(byte_size, 'Yi')
