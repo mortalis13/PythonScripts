@@ -67,9 +67,7 @@ def run():
         
         item_out_path = out_path + '/' + item_root_path + '/' + subdir
         item_out_path = os.path.normpath(item_out_path)
-        
-        if len(item_out_path) > 200:
-          item_out_path = '\\\\?\\' + item_out_path
+        item_out_path = '\\\\?\\' + item_out_path
         
         if not os.path.exists(item_out_path):
           os.mkdir(item_out_path)
@@ -89,9 +87,7 @@ def run():
         
         item_out_path = out_path + '/' + item_root_path + '/' + fp
         item_out_path = os.path.normpath(item_out_path)
-        
-        if len(item_out_path) > 200:
-          item_out_path = '\\\\?\\' + item_out_path
+        item_out_path = '\\\\?\\' + item_out_path
         
         f = open(item_out_path, 'w')
         f.close()
