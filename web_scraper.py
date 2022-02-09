@@ -1,5 +1,5 @@
 # A Web scraper template
-# Gets HTML code from a series of pages 
+# Gets HTML code from a series of pages
 # and finds elements using jQuery selectors
 
 import os, re, codecs, subprocess, time, random
@@ -11,29 +11,28 @@ from pyquery import PyQuery as pq
 # pip install requests pyquery
 
 
-def process_url(url_str, list_mode = False):
-  r = requests.get(url_str, headers={'User-agent':'Magic Browser'})
-  # content = r.content
-  d = pq(r.text)
+def process_url(url):
+  text = ''
   
-  if list_mode:
+  try:
+    r = requests.get(url, headers={'User-agent':'Magic Browser'})
+    # content = r.content
+    d = pq(r.text)
+    
     links = d('.course-list-item .content h4 a')
-    text = ''
     for i in range(links.length):
       link = links.eq(i)
       text += link.html().strip() + ' :: ' + link.attr.href + '\n'
-    return text
-  
-  link = d('a.item')
-  link = link.eq(0)
-  href = link.attr.href
-  text = href
+    
+    # item_price = d('.product-price-box .price').eq(0).text()
+  except Exception as ex:
+    print('Error: ' + str(ex))
+    text = str(ex)
   
   return text
 
+
 def run():
-  f = codecs.open('e:/res_links.txt', 'w', 'utf-8')
-  
   # use generated list of pages or a static urls list
   prefix = 'https://abc.net/forum?page='
   urls = [prefix+str(x) for x in range(1,101)]
@@ -43,10 +42,15 @@ def run():
     'http://url-2.net',
   ]
   
+  f = codecs.open('c:/scrape_result.txt', 'w', 'utf-8')
+  
+  date_str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+  f.write('[{}]\n'.format(date_str))
+  
   print('total:', len(urls))
-  for url_str in urls:
-    print('URL: ' + url_str)
-    text = process_url(url_str)
+  for url in urls:
+    print('URL: ' + url)
+    text = process_url(url)
     f.write(text + '\n')
     time.sleep(0.2)
   
