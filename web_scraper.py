@@ -42,7 +42,7 @@ def run():
     'http://url-2.net',
   ]
   
-  f = codecs.open('c:/scrape_result.txt', 'w', 'utf-8')
+  f = codecs.open('scrape_result.txt', 'w', 'utf-8')
   
   date_str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
   f.write('[{}]\n'.format(date_str))

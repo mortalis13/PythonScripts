@@ -3,7 +3,6 @@
 # Based on 'https://github.com/kiwiz/gkeepapi'
 # and 'https://stackoverflow.com/questions/22832104/how-can-i-see-hidden-app-data-in-google-drive/36487545#36487545'
 
-
 import base64, hashlib, binascii
 import sys, codecs
 import requests, webbrowser, uuid
@@ -14,14 +13,16 @@ from uuid import getnode as get_mac
 from Cryptodome.PublicKey import RSA
 from Cryptodome.Cipher import PKCS1_OAEP
 
+# pip install urllib3==1.25.11 requests pycryptodomex
 
 # Enable account access for the Google account
 # https://accounts.google.com/b/0/DisplayUnlockCaptcha
 
+email = '_mail_@gmail.com'
+
 
 def keep_api_test():
   # a package from the 'https://github.com/kiwiz/gkeepapi' project
-  # pip install gkeepapi
   import gkeepapi
 
   print('--keep_api_test')
@@ -94,7 +95,7 @@ def parse_auth_response(text):
 
 # -- Main
 def run():
-  print('== Google Keep Exporter v1.0 ==')
+  print('== Google Keep Exporter v1.1 ==')
   
   # --- I - API Data
   __version__ = '0.4.1'
@@ -112,8 +113,6 @@ def run():
   session_id = 's2'
   
   # --- II - Token
-  email = '<mail>@gmail.com'
-  password = '<gmail_pass>'
   service = 'ac2dm'
   # android_id = get_mac()
   android_id = None
@@ -127,21 +126,22 @@ def run():
   print('\nAuthorizing...')
   data = {
     'accountType': 'HOSTED_OR_GOOGLE',
-    'Email':   email,
-    'has_permission':  1,
+    'Email': email,
+    'has_permission': 1,
     'add_account': 1,
     'EncryptedPasswd': g_signature(email, password, android_key_7_3_29),
     'service': service,
-    'source':  'android',
-    'androidId':   android_id,
-    'device_country':  device_country,
+    'source': 'android',
+    'androidId': android_id,
+    'device_country': device_country,
     'operatorCountry': device_country,
-    'lang':    lang,
+    'lang': lang,
     'sdk_version': sdk_version
   }
   
   session = requests.session()
   res = session.post(auth_url, data, headers={'User-Agent': useragent})
+  
   if not res.status_code == 200:
     print('..ERROR Request:', res.text)
     if res.text.find('NeedsBrowser') != -1:
@@ -168,17 +168,17 @@ def run():
   
   data = {
     'accountType': 'HOSTED_OR_GOOGLE',
-    'Email':   email,
-    'has_permission':  1,
+    'Email': email,
+    'has_permission': 1,
     'EncryptedPasswd': psw1,
     'service': service,
-    'source':  'android',
-    'androidId':   android_id,
+    'source': 'android',
+    'androidId': android_id,
     'app': app,
     'client_sig': client_sig,
-    'device_country':  device_country,
+    'device_country': device_country,
     'operatorCountry': device_country,
-    'lang':    lang,
+    'lang': lang,
     'sdk_version': sdk_version
   }
   
@@ -257,6 +257,7 @@ def run():
         value['isArchived'] = node['isArchived']
       if 'isPinned' in node:
         value['isPinned'] = node['isPinned']
+      value['isTrashed'] = not node['timestamps']['trashed'].startswith('1970')
     else:
       key = note_parent
       if 'text' in node:
@@ -273,19 +274,20 @@ def run():
   for key in final_notes:
     notes_list.append(final_notes[key])
   
-  notes_list.sort(key=lambda x: (x['isArchived'], not x['isPinned']))
+  notes_list.sort(key=lambda x: (x['isTrashed'], x['isArchived'], not x['isPinned']))
   
-  now = datetime.now()
-  dt = '{:4}_{:2}_{:2}'.format(now.year, now.month, now.day)
+  date_str = datetime.now().strftime('%Y_%m_%d')
+  fn = 'keep_notes_{}.txt'.format(date_str)
   
-  fn = 'keep_notes_{}.txt'.format(dt)
   f = codecs.open(fn, 'w', 'utf8')
   for note in notes_list:
-    f.write('[' + note['title'] + ']')
+    f.write('Note: [' + note['title'] + ']')
     if note['isPinned']:
       f.write(' [PINNED]')
     if note['isArchived']:
       f.write(' [ARCHIVE]')
+    if note['isTrashed']:
+      f.write(' [DELETED]')
     f.write('\n')
     f.write('------------------------------------------\n')
     
