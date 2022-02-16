@@ -2,7 +2,7 @@
 
 # Preparation, from https://developers.google.com/gmail/api/quickstart/python
 # >> pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
-# Download 'credentials.json' from 'https://console.developers.google.com -> Credentials'
+# Download 'credentials.json' from 'https://console.developers.google.com -> Credentials -> OAuth'
 
 import os.path
 import pickle
@@ -12,55 +12,10 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
 
-SCOPES = [
-  # 'https://www.googleapis.com/auth/gmail.readonly',
-  # 'https://www.googleapis.com/auth/gmail.modify',
-  'https://mail.google.com/'
-]
+SCOPES = ['https://mail.google.com/']
 
-def get_unread(service):
-  query = 'is:unread'
-  response = service.users().messages().list(userId='me', q=query).execute()
-  
-  messages = []
-  if 'messages' in response:
-    messages.extend(response['messages'])
-    
-  while 'nextPageToken' in response:
-    page_token = response['nextPageToken']
-    response = service.users().messages().list(userId='me', q=query, pageToken=page_token).execute()
-    messages.extend(response['messages'])
-
-  msg_data = []
-  print('\n=== MESSAGES [{}]'.format(len(messages)))
-  for m in messages:
-    res = service.users().messages().get(userId='me', id=m['id']).execute()
-    msg_data.append(res)
-    
-  return msg_data
-
-def delete_messages(service, messages):
-  for m in messages:
-    mid = m['id']
-    headers = m['payload']['headers']
-    subject = [h['value'] for h in headers if h['name'] == 'Subject']
-    print('{} :: {}'.format(subject[0], mid))
-  
-  res = input('Confirm messages removal [y/n]\n')
-  if res.lower() != 'y':
-    return
-  
-  print('\n!! Deleting unread messages...\n')
-  for m in messages:
-    mid = m['id']
-    res = service.users().messages().delete(userId='me', id=mid).execute()
-    if not res:
-      print('.. message deleted [{}]'.format(mid))
-    else:
-      print(res)
-
-
-def main():
+def auth():
+  print('>> auth()')
   creds = None
   if os.path.exists('token.pickle'):
     with open('token.pickle', 'rb') as token:
@@ -81,12 +36,56 @@ def main():
     print('SCOPE:', creds.scopes)
   
   service = build('gmail', 'v1', credentials=creds)
+  return service
+
+def get_unread(service):
+  print('>> get_unread()')
+  query = 'is:unread'
+  response = service.users().messages().list(userId='me', includeSpamTrash=False, q=query).execute()
   
-  # === Messages
+  messages = []
+  if 'messages' in response:
+    messages.extend(response['messages'])
+    
+  while 'nextPageToken' in response:
+    page_token = response['nextPageToken']
+    response = service.users().messages().list(userId='me', includeSpamTrash=False, q=query, pageToken=page_token).execute()
+    messages.extend(response['messages'])
+
+  msg_data = []
+  print('\n=== MESSAGES [{}]'.format(len(messages)))
+  for m in messages:
+    res = service.users().messages().get(userId='me', id=m['id']).execute()
+    msg_data.append(res)
+    
+  return msg_data
+
+def delete_messages(service, messages):
+  print('>> delete_messages()')
+  for m in messages:
+    headers = m['payload']['headers']
+    subject = [h['value'] for h in headers if h['name'] == 'Subject']
+    print('{} :: {}'.format(subject, m['id']))
+  
+  res = input('Confirm messages removal [y/n]\n')
+  if res.lower() != 'y':
+    return
+  
+  print('\n!! Deleting unread messages...\n')
+  total = len(messages)
+  for i in range(total):
+    m = messages[i]
+    res = service.users().messages().delete(userId='me', id=m['id']).execute()
+    if not res:
+      print('message deleted [{}/{}] [{}]'.format(i+1, total, m['id']))
+    else:
+      print(res)
+
+
+def run():
+  service = auth()
   messages = get_unread(service)
   delete_messages(service, messages)
-    
 
-if __name__ == '__main__':
-  main()
-  
+# -------------
+run()
