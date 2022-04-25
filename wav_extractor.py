@@ -16,9 +16,9 @@
 
 # --- DATA
 fps = [
-  '_files/MinionVoiceData_ENGLISH.pvp'
+  'data/MinionVoiceData_ENGLISH.pvp'
 ]
-out_dir = '_files/wavs'
+out_dir = 'data/wavs'
 # --------
 
 
