@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from scipy.io import wavfile as wav
 
 
-fp = 'data/kick.wav'
+fp = '../data/kick.wav'
 
 rate, data = wav.read(fp)
 
