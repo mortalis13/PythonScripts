@@ -12,13 +12,17 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
-
+API_SERVICE_NAME = "gmail"
+API_VERSION = "v1"
+CLIENT_SECRETS_FILE = "credentials.json"
 SCOPES = ['https://mail.google.com/']
 
 def auth():
+  token_name = f'token_{API_SERVICE_NAME}.pickle'
+  
   creds = None
-  if os.path.exists('token.pickle'):
-    with open('token.pickle', 'rb') as token:
+  if os.path.exists(token_name):
+    with open(token_name, 'rb') as token:
       creds = pickle.load(token)
     if creds.scopes != SCOPES:
       creds = None
@@ -27,15 +31,15 @@ def auth():
     if creds and creds.expired and creds.refresh_token:
       creds.refresh(Request())
     else:
-      flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
+      flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRETS_FILE, SCOPES)
       creds = flow.run_local_server(port=0)
-    with open('token.pickle', 'wb') as token:
+    with open(token_name, 'wb') as token:
       pickle.dump(creds, token)
   
   if creds:
     print('SCOPE:', creds.scopes)
   
-  service = build('gmail', 'v1', credentials=creds)
+  service = build(API_SERVICE_NAME, API_VERSION, credentials=creds)
   return service
 
 
