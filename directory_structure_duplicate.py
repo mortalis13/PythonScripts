@@ -2,11 +2,10 @@
 # Adds files size to the their names
 # Set the 'from_path' and 'out_path' variables before running
 
-import os, re, codecs, subprocess
-import shutil, stat, errno, sys, traceback
-
-from modules.file_system_functions import *
-from modules.general_functions import *
+import os
+import codecs
+import stat
+import traceback
 
 
 def format_size(byte_size):
@@ -53,9 +52,9 @@ def run():
       continue
     
     if os.path.dirname(root) == from_path:
+      log(os.path.basename(root))
+    elif os.path.dirname(os.path.dirname(root)) == from_path:
       log('-- ' + os.path.basename(root))
-    if os.path.dirname(os.path.dirname(root)) == from_path:
-      log('---- ' + os.path.basename(root))
     
     item_root_path = root.replace(from_path, '')
     
@@ -71,6 +70,8 @@ def run():
         
         if not os.path.exists(item_out_path):
           os.mkdir(item_out_path)
+      except KeyboardInterrupt:
+        return
       except:
         error_log.write(root+'/'+subdir)
         error_log.write(traceback.format_exc())
@@ -91,6 +92,8 @@ def run():
         
         f = open(item_out_path, 'w')
         f.close()
+      except KeyboardInterrupt:
+        return
       except:
         error_log.write(root+'/'+file)
         error_log.write(traceback.format_exc())
