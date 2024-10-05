@@ -309,4 +309,3 @@ def generate_next_filename(filepath, pat=None):
 def create_folder(folder_path):
   if not os.path.exists(folder_path):
     os.makedirs(folder_path)
-    # os.mkdir(folder_path)
