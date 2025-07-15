@@ -5,10 +5,13 @@ A set of **Python** scripts for various tasks:<br>
 **modules/general_functions** - functions for regex search, filenames normalization  
 **modules/torrent_parser** - parses torrent files content
 
-**scipy/audio_fft_calc** - gets FFT data for an audio file, builds graphs for frequency distribution  
-**scipy/audio_wave_plot** - plots a graph for an audio wave in the time domain  
-**scipy/extract_audio_pcm** - writes audio data from a .wav file as text  
-**scipy/fft_manual_calc** - calculates FFT for an audio using the original algorithm  
+**audio/audio_fft_calc** - gets FFT data for an audio file, builds graphs for frequency distribution  
+**audio/audio_wave_plot** - plots a graph for an audio wave in the time domain  
+**audio/extract_audio_pcm** - writes audio data from a .wav file as text  
+**audio/fft_manual_calc** - calculates FFT for an audio using the original algorithm  
+
+**rsa/** - example of REST endpoint requiring RSA certificate  
+(generate certificate and key with `gen.py`, run `server.py` and test it with `client.py` or with a REST call to `GET /items` at `https://localhost:5000`)  
 
 **addons_download** - downloader for Firefox addons by direct URLs  
 **addons_parse** - gets Firefox addons direct links from search pages  
