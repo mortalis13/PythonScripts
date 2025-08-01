@@ -41,3 +41,4 @@ A set of **Python** scripts for various tasks:<br>
 **tabs_download** - downloader for Guitar Pro tabs from ultimate-guitar.com  
 **torrent_parse** - extracts a torrent file contents to a text file  
 **tree_list** - generates a file tree for a directory
+**win_daily_uptime** - prints total Windows uptime by day
