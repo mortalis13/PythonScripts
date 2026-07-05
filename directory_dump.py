@@ -1,4 +1,4 @@
-# Recursively scans a directory write to a text file the tree structure
+# Recursively scans a directory and writes its structure to a text file
 # Set the 'from_path' and 'out_path' variables before running
 
 import os

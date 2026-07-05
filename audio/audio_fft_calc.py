@@ -1,10 +1,8 @@
-
 # Calculates Fast Fourier Transform (FFT) of an audio data
 # determining frequency/magnitude distribution 
 # Shows graphs for linear an log frequency scales with frequency peaks in Hz
 # Uses static audio data from sine_440_hex.py which is a sine wave samples at 440 Hz
 # or can read a .wav file
-
 
 import scipy.io.wavfile as wavfile
 import scipy

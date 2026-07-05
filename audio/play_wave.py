@@ -1,4 +1,4 @@
-# Plays sine wave
+# Plays a sine wave
 
 # pip install numpy pyaudio
 

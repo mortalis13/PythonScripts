@@ -7,16 +7,16 @@ from tqdm import tqdm
 
 
 # Open a video in the browser, open the Network Dev Tools tab, play the video and find 'master.json' in the Network connections list
-master_json_url = 'https://87vod-adaptive.akamaized.net/.../master.json?query_string_ranges=1&base64_init=1'
+MASTER_JSON_URL = 'https://87vod-adaptive.akamaized.net/.../master.json?query_string_ranges=1&base64_init=1'
 
 
 def get_stream(stream_type):
-    resp = requests.get(master_json_url)
+    resp = requests.get(MASTER_JSON_URL)
     content = resp.json()
 
     # == Read
     updir_count = content['base_url'].count('..')
-    m = re.search(f'^(.+/)([^/]+/){{{updir_count}}}[^/]+$', master_json_url)
+    m = re.search(f'^(.+/)([^/]+/){{{updir_count}}}[^/]+$', MASTER_JSON_URL)
     if not m:
         print('error no matching base_url')
         exit()

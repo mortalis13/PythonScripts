@@ -1,4 +1,4 @@
-# Send an email
+# Sends an email
 
 # Preparation, from https://developers.google.com/gmail/api/quickstart/python
 # >> pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib

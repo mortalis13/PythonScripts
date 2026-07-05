@@ -1,4 +1,4 @@
-# A Web scraper template
+# A web scraper template
 # Gets HTML code from a series of pages
 # and finds elements using jQuery selectors
 

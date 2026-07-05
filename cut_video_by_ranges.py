@@ -1,3 +1,5 @@
+# Extracts selected chunks from a video and merges them into a new video file
+
 import subprocess
 import os
 

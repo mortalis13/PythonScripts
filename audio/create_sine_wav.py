@@ -1,4 +1,4 @@
-# Write sine wave to a wav file
+# Writes sine wave data to a wav file
 
 # pip install numpy scipy
 

@@ -1,4 +1,4 @@
-# Get information from youtube channels
+# Gets information from YouTube channels
 
 # Preparation, from https://developers.google.com/youtube/v3/quickstart/python
 # >> pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib

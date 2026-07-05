@@ -1,44 +1,73 @@
-A set of **Python** scripts for various tasks:<br>
-(files/text manipulation, HTTP requests, file downloads, HTML parsers)
+A suite of **Python** scripts for various tasks:  
+(files/text manipulation, HTTP requests, file downloads, web parsers etc.)
 
-**modules/file_system_functions** - functions to get lists of filenames, paths, remove files  
-**modules/general_functions** - functions for regex search, filenames normalization  
-**modules/torrent_parser** - parses torrent files content
+`/modules`  
+- `file_system_functions` - Functions for retrieving of lists of filenames, paths, for removing files etc.
+- `general_functions` - Functions for regex search, filenames normalization
+- `torrent_parser` - Parses torrent files content
 
-**audio/audio_fft_calc** - gets FFT data for an audio file, builds graphs for frequency distribution  
-**audio/audio_wave_plot** - plots a graph for an audio wave in the time domain  
-**audio/extract_audio_pcm** - writes audio data from a .wav file as text  
-**audio/fft_manual_calc** - calculates FFT for an audio using the original algorithm  
+`/audio`  
+- `audio_fft_calc` - Gets FFT data for an audio file, builds graphs for frequency distribution
+- `audio_wave_plot` - Plots a graph for an audio wave in the time domain
+- `create_sine_wav` - Writes sine wave data to a wav file
+- `cue_split` - Splits FLAC, APE audio files by a CUE-file
+- `extract_audio_pcm` - Writes audio data from a .wav file as text
+- `fft_manual_calc` - Calculates FFT for an audio using the original algorithm
+- `play_wave` - Plays a sine wave using `PyAudio`
+- `wav_extractor` - Extracts WAV audio data from a binary file
 
-**rsa/** - example of REST endpoint requiring RSA certificate  
-(generate certificate and key with `gen.py`, run `server.py` and test it with `client.py` or with a REST call to `GET /items` at `https://localhost:5000`)  
+`/scrapers`  
+- `addons_downloader` - Downloader for Firefox addons by direct URLs
+- `addons_parser` - Gets Firefox addons direct links from search pages
+- `bankia_api` - Shows bank account balance and last operations
+- `file_downloader` - Downloads files from a server by direct links
+- `fuse_downloader` - Downloader for Fender FUSE presets by direct links
+- `metaltabs_downloader` - Downloads tabs from metaltabs.org
+- `parse_html` - Walks through HTML elements tree and extracts information
+- `proxy_downloader` - Downloads a file through a proxy IP from a list
+- `rapidgator_downloader` - Downloads a file from rapidgator.net by file ID
+- `tabs_downloader` - Downloader for Guitar Pro tabs from ultimate-guitar.com
+- `vimeo_downloader` - Downloads a mp4 video from vimeo.com
+- `web_scraper` - Generic web scraper template
 
-**addons_download** - downloader for Firefox addons by direct URLs  
-**addons_parse** - gets Firefox addons direct links from search pages  
-**archive_process** - scans ZIP files and gets their content  
-**bankia_api** - shows bank account balance and last operations  
-**convert_encoding** - converts text encoding for all files in a folder  
-**copy_files** - batch copies files with a filter  
-**covid_stat_csv** - shows world statistics on COVID-19 spread  
-**cue_split** - splits FLAC, APE audio files using a CUE-file  
-**directory_structure_duplicate** - makes a duplicate of a folder tree without copying files  
-**dsl_find_largest_article** - searches for a longest article body in a DSL dictionary  
-**dsl_get_headwords** - gets all headwords in a DSL dictionary  
-**file_downloader** - downloads files from a server by direct links  
-**ftp_list** - gets a list of files in FTP directories  
-**fuse_download** - downloader for Fender FUSE presets by direct links  
-**generate_unicode_char_from_ranges** - writes Unicode chars having a list of code ranges  
-**get_java_imports** - extracts Java imports from a directory  
-**gmail_api-remove_unread** - removes unread messages from a Gmail account using Gmail API  
-**google_search** - downloads a page with Google search results
-**merge_files** - combines multiple files into one  
-**parse_html** - walks through HTML elements tree and extracts information  
-**pdf_merge** - combines multiple PDF or image files  
-**pdf_process** - extracts information from a PDF file  
-**process_csv** - gets info and combines CSV files  
-**randomize_album** - selects a random music album and copies it  
-**replace_string_in_files** - replaces a string in all text files in a folder  
-**tabs_download** - downloader for Guitar Pro tabs from ultimate-guitar.com  
-**torrent_parse** - extracts a torrent file contents to a text file  
-**tree_list** - generates a file tree for a directory
-**win_daily_uptime** - prints total Windows uptime by day
+`/ai`  
+- `copilot_rest` - Github Copilot REST tester
+
+`/rsa` - Example of REST endpoint requiring RSA certificate  
+- generate a certificate and key with `gen.py`
+- run `server.py`
+- test the endpoint with `client.py` or with a REST call to `GET https://localhost:5000/items`
+
+---
+
+`apk_names` - Gets app names from APK files in a folder  
+`archive_process` - Scans ZIP files and gets their content  
+`auto_sys_proxy` - Sets system proxy from a dynamically retrieved proxies list  
+`convert_encoding` - Converts text encoding for all files in a folder  
+`copy_files` - Batch copies files with a filter  
+`covid_stat_csv` - Shows world statistics on COVID-19 spread  
+`cut_video_by_ranges` - Extracts selected chunks from a video and merges them into a new video file  
+`directory_dump` - Recursively scans a directory and writes its structure to a text file  
+`directory_structure_duplicate` - Makes a duplicate of a folder tree without copying files  
+`dsl_find_largest_article` - Searches for a longest article body in a DSL dictionary  
+`dsl_get_headwords` - Gets all headwords in a DSL dictionary  
+`ftp_list` - Gets a list of files in FTP directories  
+`generate_unicode_char_from_ranges` - Writes Unicode chars having a list of code ranges  
+`get_java_imports` - Extracts Java imports from a directory  
+`gmail_api_remove_unread` - Removes unread messages from a Gmail account using Gmail API  
+`gmail_api_send` - Sends an email using Gmail API  
+`google_keep_export` - Exports Google Keep notes to a text file  
+`google_search` - Downloads a page with Google search results
+`merge_files` - Combines multiple files into one  
+`multi_rename` - Renames multiple files using a naming map  
+`pdf_merge` - Combines multiple PDF or image files  
+`pdf_process` - Extracts information from a PDF file  
+`process_csv` - Gets info and combines CSV files  
+`randomize_album` - Selects a random music album and copies it  
+`replace_string_in_files` - Replaces a string in all text files in a folder  
+`rss_service` - Retrieves information from a RSS feed and sends an email with the parsed data  
+`torrent_parse` - Extracts a torrent file contents to a text file  
+`tree_list` - Generates a file tree for a directory  
+`tumblr_api` - Basic usage of Tumblr API  
+`win_daily_uptime` - Prints total Windows uptime by day  
+`youtube_api` - Gets information from YouTube channels  

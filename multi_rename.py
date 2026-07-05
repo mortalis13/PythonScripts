@@ -1,4 +1,4 @@
-# Renamed multiple files using a naming map
+# Renames multiple files using a naming map
 
 import os
 
