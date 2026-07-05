@@ -5,13 +5,11 @@ import os
 import codecs
 import traceback
 
-
 def log(msg):
   try:
     print(msg)
   except:
     pass
-
 
 def run():
   from_path = 'd:/'

@@ -1,7 +1,6 @@
-# Writes file tree to a text file
+# Writes flat file tree to a text file
 
 import os, codecs
-
 
 def get_tree_list(dir):
   exts = [
@@ -10,7 +9,7 @@ def get_tree_list(dir):
     'djvu'
   ]
   
-  res_file_path = 'c:/res_tree.txt'
+  res_file_path = 'd:/flat_tree.txt'
   res_file = codecs.open(res_file_path, encoding='utf-8', mode='w')
   
   root_len = len(dir)
@@ -35,7 +34,6 @@ def get_tree_list(dir):
   
   print('Finish')
 
-
 # ---
-f = 'g:/books'
+f = 'd:/'
 get_tree_list(f)

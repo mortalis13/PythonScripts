@@ -47,7 +47,8 @@ A suite of **Python** scripts for various tasks:
 `copy_files` - Batch copies files with a filter  
 `covid_stat_csv` - Shows world statistics on COVID-19 spread  
 `cut_video_by_ranges` - Extracts selected chunks from a video and merges them into a new video file  
-`directory_dump` - Recursively scans a directory and writes its structure to a text file  
+`dump_directory` - Recursively scans a directory and writes its structure to a text file  
+`dump_files` - Generates a flat files list for a directory  
 `directory_structure_duplicate` - Makes a duplicate of a folder tree without copying files  
 `dsl_find_largest_article` - Searches for a longest article body in a DSL dictionary  
 `dsl_get_headwords` - Gets all headwords in a DSL dictionary  
@@ -67,7 +68,6 @@ A suite of **Python** scripts for various tasks:
 `replace_string_in_files` - Replaces a string in all text files in a folder  
 `rss_service` - Retrieves information from a RSS feed and sends an email with the parsed data  
 `torrent_parse` - Extracts a torrent file contents to a text file  
-`tree_list` - Generates a file tree for a directory  
 `tumblr_api` - Basic usage of Tumblr API  
 `win_daily_uptime` - Prints total Windows uptime by day  
 `youtube_api` - Gets information from YouTube channels  
