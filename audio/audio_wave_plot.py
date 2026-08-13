@@ -1,13 +1,13 @@
-
 # Plots a waveform of an audio .wav file
 
-import matplotlib.pyplot as plt
-from scipy.io import wavfile as wav
+# pip install scipy matplotlib
 
+import matplotlib.pyplot as plt
+from scipy.io import wavfile
 
 fp = '../data/kick.wav'
 
-rate, data = wav.read(fp)
+rate, data = wavfile.read(fp)
 
 plt.plot(data)
 plt.show()

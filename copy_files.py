@@ -1,36 +1,27 @@
-# Copy Eclipse project folders from source list to a dest directory
-# Ignore some folders to copy only core data
+import os
+import shutil
 
-import os, re, codecs, subprocess
-import shutil, stat, errno, sys
+copy_dest = 'c:/result'
 
-  
+source = [
+  'c:/project1',
+  'c:/project2',
+  'c:/project3',
+]
+
 def copy_files(folder_src, folder_dest):
   ignore = shutil.ignore_patterns('.svn', 'target', '.metadata')
   shutil.copytree(folder_src, folder_dest, ignore=ignore)
 
-
 def run():
-  fsrc_list = [
-    'C:/eclipse/project1',
-    'C:/eclipse/project2',
-    'C:/eclipse/project3',
-  ]
-  
-  fdest_root = 'c:/eclipse-copy'
-  
-  for fsrc in fsrc_list:
-    dest_folder_name = os.path.basename(fsrc)
-    fdest = fdest_root + '/' + dest_folder_name
+  for src in source:
+    dest = copy_dest + '/' + os.path.basename(src)
     
-    fsrc = os.path.normpath(fsrc)
-    fdest = os.path.normpath(fdest)
+    src = os.path.normpath(src)
+    dest = os.path.normpath(dest)
     
-    fdest = '\\\\?\\' + fdest
-  
-    copy_files(fsrc, fdest)
-  
-  
-# -------------------------
+    dest = '\\\\?\\' + dest
+    copy_files(src, dest)
+
 
 run()

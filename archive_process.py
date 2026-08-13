@@ -1,32 +1,51 @@
-# Write names of zip files containing 'manifest.json' file
-# Used for XPI files (which are zip-like archives and Firefox addon files)
+# Process zip, zip-like, rar archives:
+# Filter zip files containing a file name
+# Unpack a RAR archive
 
-import re, codecs, os
+# pip install rarfile
+
+import codecs, os
 import zipfile
+import rarfile
 
 from modules.file_system_functions import *
-from modules.general_functions import *
 
+def find_file(file_name, folder):
+  out_file = 'output.txt'
+  f = codecs.open(out_file, 'w', 'utf8')
   
-def run():
-  manifest_file = 'manifest.json'
-  
-  fp = 'e:/webext-android.txt'
-  f = codecs.open(fp, 'w', 'utf8')
-  
-  dp = 'e:/XPI/_all/android'
-  zip_files = get_filepaths(dp)
+  zip_files = get_filepaths(folder)
   
   for zip_file in zip_files:
+    try:
+      zip = zipfile.ZipFile(zip_file)
+    except zipfile.BadZipFile:
+      continue
+      
     print(zip_file)
-    zip = zipfile.ZipFile(zip_file)
     files = zip.namelist()
     
-    if manifest_file in files:
+    if file_name in files:
       f.write(zip_file + '\n')
       f.flush()
       
   f.close()
+
+
+def unpack_rar(path):
+  print(f'Extracting "{path}"...\n')
   
+  target_dir = os.getcwd()
   
+  with rarfile.RarFile(path) as rar:
+    rar.extractall(target_dir)
+    extracted_files = rar.namelist()
+  
+  [print(x) for x in extracted_files]
+  
+
+def run():
+  find_file('AndroidManifest.xml', 'c:/archives')
+  unpack_rar('c:/archives/sample.rar')
+
 run()

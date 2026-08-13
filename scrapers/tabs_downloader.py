@@ -2,17 +2,16 @@
 # Needs text files with direct tabs urls generated in a separate script
 # Performs downloads by parts
 
-import os, re, codecs, subprocess
+import os, codecs
 import time, random
-import shutil, stat, errno, sys, http
+import sys
 
 from modules.file_system_functions import *
 from modules.general_functions import *
 
-import urllib.request
 import requests
 
-# attachment; filename="Falkenbach - As Long As Winds Will Blow (guitar pro).gp5"; filename*=utf-8''Falkenbach%20-%20As%20Long%20As%20Winds%20Will%20Blow%20%28guitar%20pro%29.gp5
+# Content-Disposition: attachment; filename="Falkenbach - As Long As Winds Will Blow (guitar pro).gp5"; filename*=utf-8''Falkenbach%20-%20As%20Long%20As%20Winds%20Will%20Blow%20%28guitar%20pro%29.gp5
 
 
 # -----------------------------------------------------
@@ -34,7 +33,7 @@ part_ids = [1, 2, 3, 4, 5]
 
 # -----------------------------------------------------
 
-def run_default():
+def run():
   print('Start downloading ...')
   
   base_path = 'e:/Documents/tabs_info'
@@ -108,9 +107,9 @@ def run_default():
         f_log.flush()
         
         time.sleep(random.uniform(0.5,1))
+      
       except:
-        msg = "-- Save Exception: {0}\n{1}\n{2}"
-        msg = msg.format(str(id), sys.exc_info()[0], sys.exc_info()[1])
+        msg = "-- Save Exception: {0}\n{1}\n{2}".format(str(id), sys.exc_info()[0], sys.exc_info()[1])
         print('\n' + msg + '\n')
         f_error_log.write(str(id) + '\n')
         f_error_log.flush()
@@ -120,6 +119,7 @@ def run_default():
       if i%50 == 0:
         print(str(i) + ' processed')
       i += 1
+    # // for lines
     
     print('----------\nEnd part ' + part_id + ' [' + time.strftime("%H:%M:%S", time.gmtime()) + ']')
     
@@ -130,5 +130,4 @@ def run_default():
   print('End downloading ...')
   
   
-# ---
-run_default()
+run()

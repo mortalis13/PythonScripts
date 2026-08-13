@@ -1,28 +1,27 @@
-# Convert russian encodings in files inside a diectory 'd'
+# Converts encodings in files inside a directory
 
-import os, re, codecs, subprocess
-import shutil, stat, errno, sys
+import codecs
 
 from modules.file_system_functions import *
-from modules.general_functions import *
 
+root = 'c:/files'
+
+def convert(path, from_enc, to_enc):
+  f = codecs.open(path, encoding=from_enc, mode='r')
+  text = f.read()
+  f.close()
+  
+  res = text.encode(from_enc).decode(to_enc)
+  
+  f = codecs.open(path, encoding='utf8', mode='w')
+  f.write(res)
+  f.close()
 
 def run():
-  d = 'c:/tools/rtr-vst'
-  
-  files = get_filepaths_in_tree(d)
+  files = get_filepaths_in_tree(root)
   
   for fp in files:
-    f = codecs.open(fp, encoding='cp1252', mode='r')
-    text = f.read()
-    f.close()
-    
-    # res=str.encode('cp850').decode('cp866')
-    res=text.encode('cp1252').decode('cp1251')
-    
-    f = codecs.open(fp, encoding='utf8', mode='w')
-    f.write(res)
-    f.close()
+    convert(fp, 'cp850', 'cp1251')
 
 
 run()

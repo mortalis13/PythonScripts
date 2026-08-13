@@ -3,41 +3,27 @@
 # Based on 'https://github.com/kiwiz/gkeepapi'
 # and 'https://stackoverflow.com/questions/22832104/how-can-i-see-hidden-app-data-in-google-drive/36487545#36487545'
 
+# Enable account access for the Google account
+# https://accounts.google.com/b/0/DisplayUnlockCaptcha
+
+# pip install urllib3==1.25.11 requests pycryptodomex
+
 import base64, hashlib, binascii
-import sys, codecs
+import codecs
 import requests, webbrowser, uuid
 
 from datetime import datetime
 from getpass import getpass
-from uuid import getnode as get_mac
 from Cryptodome.PublicKey import RSA
 from Cryptodome.Cipher import PKCS1_OAEP
 
-# pip install urllib3==1.25.11 requests pycryptodomex
-
-# Enable account access for the Google account
-# https://accounts.google.com/b/0/DisplayUnlockCaptcha
-
-email = '_mail_@gmail.com'
-
-
-def keep_api_test():
-  # a package from the 'https://github.com/kiwiz/gkeepapi' project
-  import gkeepapi
-
-  print('--keep_api_test')
-  with open('usr') as f: usr = f.read()
-  # with open('psw') as f: psw = f.read()
-  psw = getpass('')
-  keep = gkeepapi.Keep()
-  success = keep.login(usr, psw)
-
-  print('connected:', success)
+email = 'mail@gmail.com'
 
 
 # -- Utils
 def bytes_to_long(s):
   return int.from_bytes(s, "big")
+  
 def long_to_bytes(lnum, padmultiple=1):
   if lnum == 0:
     return b'\0' * padmultiple
@@ -93,7 +79,6 @@ def parse_auth_response(text):
   return response_data
 
 
-# -- Main
 def run():
   print('== Google Keep Exporter v1.1 ==')
   
@@ -109,12 +94,10 @@ def run():
                     b"6rmf5AAAAAwEAAQ==")
   
   android_key_7_3_29 = key_from_b64(b64_key_7_3_29)
-  # session_id = str(uuid.uuid1())
-  session_id = 's2'
+  session_id = str(uuid.uuid1())
   
   # --- II - Token
   service = 'ac2dm'
-  # android_id = get_mac()
   android_id = None
   device_country = 'us'
   lang = 'en'
@@ -143,23 +126,27 @@ def run():
   res = session.post(auth_url, data, headers={'User-Agent': useragent})
   
   if not res.status_code == 200:
-    print('..ERROR Request:', res.text)
+    print('[ERROR] Request get token:', res.text)
+    
     if res.text.find('NeedsBrowser') != -1:
       print('\nAllow access to the Google account')
+      
       access_url = 'https://accounts.google.com/b/0/DisplayUnlockCaptcha'
       print('Trying to open browser at \'{}\'...'.format(access_url))
+      
       print('Press Enter after enabling access...\n')
       webbrowser.open(access_url, new=2)
       
       input()
       res = session.post(auth_url, data, headers={'User-Agent': useragent})
+      
       if not res.status_code == 200:
         return
   
   res = parse_auth_response(res.text)
   print(res['Token'])
   print()
-  psw1 = res['Token']
+  token = res['Token']
   
   # --- III - Google Keep connection
   app = 'com.google.android.keep'
@@ -170,7 +157,7 @@ def run():
     'accountType': 'HOSTED_OR_GOOGLE',
     'Email': email,
     'has_permission': 1,
-    'EncryptedPasswd': psw1,
+    'EncryptedPasswd': token,
     'service': service,
     'source': 'android',
     'androidId': android_id,
@@ -185,7 +172,7 @@ def run():
   session = requests.session()
   res = session.post(auth_url, data, headers={'User-Agent': useragent})
   if not res.status_code == 200:
-    print('..ERROR Request [2]:', res.text)
+    print('[ERROR] Request get auth token:', res.text)
     return
   res = parse_auth_response(res.text)
   auth_token = res['Auth']
@@ -194,7 +181,7 @@ def run():
   # --- IV
   print('\nCalling API...')
   data = {
-    'clientTimestamp': datetime.now().isoformat()+'Z',
+    'clientTimestamp': datetime.now().isoformat() + 'Z',
     'requestHeader': {
       'clientSessionId': session_id,
       'clientPlatform': 'ANDROID',
@@ -205,14 +192,14 @@ def run():
         'revision': '9'
       },
       'capabilities': [
-        {'type': 'NC'}, # Color support (Send note color)
-        {'type': 'PI'}, # Pinned support (Send note pinned)
-        {'type': 'LB'}, # Labels support (Send note labels)
-        {'type': 'AN'}, # Annotations support (Send annotations)
-        {'type': 'SH'}, # Sharing support
-        {'type': 'DR'}, # Drawing support
-        {'type': 'TR'}, # Trash support (Stop setting the delete timestamp)
-        {'type': 'IN'}, # Indentation support (Send listitem parent)
+        {'type': 'NC'},  # Color support (Send note color)
+        {'type': 'PI'},  # Pinned support (Send note pinned)
+        {'type': 'LB'},  # Labels support (Send note labels)
+        {'type': 'AN'},  # Annotations support (Send annotations)
+        {'type': 'SH'},  # Sharing support
+        {'type': 'DR'},  # Drawing support
+        {'type': 'TR'},  # Trash support (Stop setting the delete timestamp)
+        {'type': 'IN'},  # Indentation support (Send listitem parent)
 
         {'type': 'SNB'}, # Allows modification of shared notes?
         {'type': 'MI'},  # Concise blob info?
@@ -223,11 +210,13 @@ def run():
   
   session = requests.session()
   res = session.post(url=api_url, json=data, headers={'Authorization': 'OAuth ' + auth_token})
+  
   if not res.status_code == 200:
-    print('..ERROR Request [3]:', res.text)
+    print('[ERROR] Request [3]:', res.text)
     print()
     print(res)
     return
+    
   res = res.json()
   if 'error' in res:
     print('Response with error:', res['error'])
@@ -241,6 +230,7 @@ def run():
   print('\nProcessing notes...')
   final_notes = {}
   nodes = res['nodes']
+  
   for node in nodes:
     note_id = node['id']
     note_parent = node['parentId']
@@ -258,6 +248,7 @@ def run():
       if 'isPinned' in node:
         value['isPinned'] = node['isPinned']
       value['isTrashed'] = not node['timestamps']['trashed'].startswith('1970')
+      
     else:
       key = note_parent
       if 'text' in node:
@@ -298,6 +289,4 @@ def run():
   print('\n>>> File written: \'' + fn + '\'')
   
   
-# ----
 run()
-# keep_api_test()

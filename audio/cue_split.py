@@ -2,25 +2,18 @@
 # (a .cue file next to an audio file)
 
 # Call as:
-#   python cue-split.py [OPTIONS] "file.cue"
+#   python cue_split.py [OPTIONS] "file.cue"
 # OPTIONS: -d, -f -> (target dir, format)
 
-import argparse
-import datetime
-import enum
-import math
-import os.path
-import shlex
-import shutil
-import subprocess
+import os
 import sys
-import tempfile
-
-import pprint
-
+import datetime
+import subprocess
+import argparse
+import shlex
+import enum
 
 source_formats = ['flac', 'ape', 'wav']
-
 
 class Context(enum.Enum):
   ALBUM = 0
@@ -37,7 +30,6 @@ def normalize_filename(val):
     val = val.replace(sym, '-')
     
   return val
-  
   
 
 def parse_cue_context(lines, context=Context.ALBUM, **defaults):
@@ -75,8 +67,8 @@ def parse_cue_context(lines, context=Context.ALBUM, **defaults):
             break
           track_lines.append(lines.pop(0)[4:])
         result['tracks'].append(parse_cue_context(track_lines, context=Context.TRACK, genre=result['genre'], date=result['date'], performer=result.get('performer', 'Unknown Artist'), title='Unknown Track', input_file=result['input_file']))
+  
   return result
-
 
 def parse_time(time):
   minutes, seconds, frames = tuple(map(int, time.split(':')))
@@ -88,28 +80,36 @@ def split_cue(cue_data, no_gap):
   start_time = datetime.timedelta()
   end_time = None
   tracks = cue_data['tracks']
+  
   for i in range(len(tracks)):
     is_first_track = i == 0
     is_last_track = i == (len(tracks) - 1)
     track = tracks[i]
     start_time = track['start_time']
+    
     if not is_first_track:
       tracks[i - 1]['end_time'] = start_time
       if track['input_file'] != filename:
         tracks[i - 1]['end_time'] = None
+    
     if is_last_track:
       track['end_time'] = None
+    
     filename = track['input_file']
 
   track_number = 1
   output_track = {'track_number': track_number}
+  
   for track in tracks:
     if track['index_type'] == 0 and not no_gap:
       output_track.setdefault('start_time', track['start_time'])
+    
     elif track['index_type'] >= 1:
       for k, v in track.items():
         output_track.setdefault(k, v)
+      
       yield output_track
+      
       track_number += 1
       output_track = {'track_number': track_number}
 
@@ -124,7 +124,6 @@ def extract_track_ffmpeg(source_format, track_data, total_tracks, source_dir, ta
     ext = '.mp3'
     add_params = ['-c:a', 'libmp3lame', '-b:a', '320k']
   
-  # output_file = '{:02d} - {} - {}{}'.format(track_data['track_number'], track_data['performer'], track_data['title'], ext)
   output_file = '{:02d} - {}{}'.format(track_data['track_number'], track_data['title'], ext)
   output_file = normalize_filename(output_file)
   output_file = target_dir + '/' + output_file
@@ -144,12 +143,12 @@ def extract_track_ffmpeg(source_format, track_data, total_tracks, source_dir, ta
   cmd.append(output_file)
   print('== cmd: "' + ' '.join(cmd) + '"\n')
   
-  # return
   if not dry_run:
     proc = subprocess.Popen(cmd)
     stdout, stderr = proc.communicate()
     if proc.returncode:
       raise RuntimeError(stderr)
+  
   else:
     print(' '.join(map(shlex.quote, cmd)))
 
@@ -174,19 +173,18 @@ def extract_track_avconv(source_format, track_data, total_tracks, source_dir, ta
   
   cmd.append(output_file)
   
-  # return
   if not dry_run:
     proc = subprocess.Popen(cmd)
     stdout, stderr = proc.communicate()
     if proc.returncode:
       raise RuntimeError(stderr)
+  
   else:
     print(' '.join(map(shlex.quote, cmd)))
 
 
-def main(argv=None):
-  if argv is None:
-    argv = sys.argv[1:]
+def run():
+  argv = sys.argv[1:]
 
   parser = argparse.ArgumentParser()
   parser.add_argument('cuefile')
@@ -195,7 +193,6 @@ def main(argv=None):
   parser.add_argument('--dry-run', default=False, action='store_true', dest='dry_run')
   parser.add_argument('-t', default=[], action='append', dest='track_numbers')
   parser.add_argument('-d', default='', action='append', dest='target_dir')
-  # parser.add_argument('-f', default='flac', action='append', dest='source_format')
   parser.add_argument('-f', default='flac', dest='source_format')
   args = parser.parse_args(argv)
   
@@ -233,5 +230,4 @@ def main(argv=None):
     extract_track_ffmpeg(source_format, track_data, total_tracks, source_dir, args.target_dir, args.no_gap, args.dry_run)
 
 
-if __name__ == '__main__':
-  main()
+run()

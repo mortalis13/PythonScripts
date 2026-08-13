@@ -38,6 +38,7 @@ def auth():
   service = build('gmail', 'v1', credentials=creds)
   return service
 
+
 def get_unread(service):
   print('>> get_unread()')
   query = 'is:unread'
@@ -59,6 +60,7 @@ def get_unread(service):
     msg_data.append(res)
     
   return msg_data
+
 
 def delete_messages(service, messages):
   print('>> delete_messages()')
@@ -87,5 +89,5 @@ def run():
   messages = get_unread(service)
   delete_messages(service, messages)
 
-# -------------
+
 run()

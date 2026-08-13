@@ -43,14 +43,14 @@ def auth():
   return service
 
 
-def create_message(subject, body, recepient, sender='test'):
+def create_message(subject, body, recipient, sender='test'):
   body_base64 = base64.b64encode(body.encode()).decode()
   
   message = f'''
 Content-Type: text/html; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-to: {recepient}
+to: {recipient}
 from: {sender}
 subject: {subject}
 
@@ -59,6 +59,7 @@ subject: {subject}
   
   message_base64 = base64.urlsafe_b64encode(message.encode()).decode()
   return {'raw': message_base64}
+
 
 def send_message(service, user_id, message):
   return service.users().messages().send(userId=user_id, body=message).execute()
@@ -69,15 +70,15 @@ def run():
   
   subject = 'test'
   body = 'body'
-  recepient = 'gmail@gmail.com'
+  recipient = 'gmail@gmail.com'
   
   service = auth()
-  message = create_message(subject, body, recepient)
+  message = create_message(subject, body, recipient)
   result = send_message(service, user_id, message)
   
   print(result)
   print('\nEmail Sent')
   
-# -------------
+
 run()
   

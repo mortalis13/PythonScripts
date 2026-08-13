@@ -4,7 +4,6 @@ A suite of **Python** scripts for various tasks:
 `/modules`  
 - `file_system_functions` - Functions for retrieving of lists of filenames, paths, for removing files etc.
 - `general_functions` - Functions for regex search, filenames normalization
-- `torrent_parser` - Parses torrent files content
 
 `/audio`  
 - `audio_fft_calc` - Gets FFT data for an audio file, builds graphs for frequency distribution
@@ -53,7 +52,7 @@ A suite of **Python** scripts for various tasks:
 `dsl_find_largest_article` - Searches for a longest article body in a DSL dictionary  
 `dsl_get_headwords` - Gets all headwords in a DSL dictionary  
 `ftp_list` - Gets a list of files in FTP directories  
-`generate_unicode_char_from_ranges` - Writes Unicode chars having a list of code ranges  
+`generate_unicode_char_from_ranges` - Writes Unicode chars having a list of codepoint ranges  
 `get_java_imports` - Extracts Java imports from a directory  
 `gmail_api_remove_unread` - Removes unread messages from a Gmail account using Gmail API  
 `gmail_api_send` - Sends an email using Gmail API  
@@ -71,3 +70,8 @@ A suite of **Python** scripts for various tasks:
 `tumblr_api` - Basic usage of Tumblr API  
 `win_daily_uptime` - Prints total Windows uptime by day  
 `youtube_api` - Gets information from YouTube channels  
+
+
+## Notes
+For the scripts using the common modules, run them from the root folder as `python -m folder.script` so the modules are loaded correctly.  
+For example: `python -m audio.audio_tag_copy`

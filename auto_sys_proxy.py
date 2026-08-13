@@ -3,15 +3,13 @@
 # This reflects the 'Proxy server' section in the 
 # 'Control Panel -> Internet Options -> Connections -> LAN Settings'
 
-import time, os, codecs
+import os, codecs
+import winreg
 import requests
 
-from winreg import *
 from pyquery import PyQuery as pq
 
-# pip install pyquery
-
-print('== Proxy Change ==')
+# pip install requests pyquery
 
 def get_proxy_list(https_only=True):
   res = []
@@ -85,29 +83,30 @@ def set_system_proxy(p=''):
     print('Disabling System Proxy...')
   
   keyVal = 'Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings'
-  key = OpenKey(HKEY_CURRENT_USER, keyVal, 0, KEY_ALL_ACCESS)
-  SetValueEx(key, "ProxyServer", 0, REG_SZ, p)
-  SetValueEx(key, "ProxyEnable", 0, REG_DWORD, status)
-  CloseKey(key)
+  key = winreg.OpenKey(HKEY_CURRENT_USER, keyVal, 0, KEY_ALL_ACCESS)
+  winreg.SetValueEx(key, "ProxyServer", 0, REG_SZ, p)
+  winreg.SetValueEx(key, "ProxyEnable", 0, REG_DWORD, status)
+  winreg.CloseKey(key)
   
 
 def get_system_proxy():
   print('get_system_proxy()')
   keyVal = 'Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings'
-  key = OpenKey(HKEY_CURRENT_USER, keyVal, 0, KEY_ALL_ACCESS)
+  key = winreg.OpenKey(HKEY_CURRENT_USER, keyVal, 0, KEY_ALL_ACCESS)
   try:
-    val = QueryValueEx(key, "ProxyServer")
+    val = winreg.QueryValueEx(key, "ProxyServer")
     val = val[0]
   except:
     val = None
-  CloseKey(key)
+  winreg.CloseKey(key)
   
   return val
   
 
 def run(plist=[]):
+  print('== Proxy Change ==')
+  
   fp = 'used_proxies.txt'
-  # os.remove(fp)
   if not os.path.exists(fp):
     f = open(fp, 'w'); f.close()
   
@@ -158,9 +157,7 @@ def run(plist=[]):
   f.close()
 
 
-# ----------------
-plist = []
-run(plist)
+run()
 
 # -- Reset system proxy
 # set_system_proxy('')

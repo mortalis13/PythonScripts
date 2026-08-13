@@ -1,14 +1,15 @@
 # Downloads a mp4 video from vimeo.com
 
-import requests
+# pip install requests tqdm
+
 import base64
 import re
-from tqdm import tqdm
 
+import requests
+from tqdm import tqdm
 
 # Open a video in the browser, open the Network Dev Tools tab, play the video and find 'master.json' in the Network connections list
 MASTER_JSON_URL = 'https://87vod-adaptive.akamaized.net/.../master.json?query_string_ranges=1&base64_init=1'
-
 
 def get_stream(stream_type):
     resp = requests.get(MASTER_JSON_URL)
@@ -65,6 +66,5 @@ def get_stream(stream_type):
     out_file.close()
 
 
-# ---------
 get_stream('video')
 get_stream('audio')

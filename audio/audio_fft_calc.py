@@ -4,18 +4,23 @@
 # Uses static audio data from sine_440_hex.py which is a sine wave samples at 440 Hz
 # or can read a .wav file
 
+# pip install numpy scipy matplotlib
+
+import math
+import codecs
+
+import numpy as np
 import scipy.io.wavfile as wavfile
 import scipy
 import scipy.fftpack
-from scipy.signal.windows import *
-import numpy as np
-from matplotlib import pyplot as plt
 
-import math, codecs
+from scipy.signal import windows
+from matplotlib import pyplot as plt
 
 from imp.sine_440_hex import *
 
 
+# Hamming window function
 def whamm(M):
     res = []
     for n in range(0, M):
@@ -24,6 +29,7 @@ def whamm(M):
       
     return np.array(res)
 
+# Hann window function
 def whann(M):
     res = []
     for n in range(0, M):
@@ -77,20 +83,21 @@ def run():
   ndata = ndata / MAXS
   
   if ZERO_PAD:
-    w = np.ones(FN0)
+    # w = np.ones(FN0)
     w = whamm(FN0)
     y0 = ndata[FN0:FN0*2] * w
     y = np.array([0.0]*FN)
     y[:FN0] = np.array(y0)
+
   else:
-    w = np.ones(FN)
-    # w = blackman(FN)
-    # w = hann(FN)
+    # w = np.ones(FN)
+    # w = windows.blackman(FN)
+    # w = windows.hann(FN)
     w = whamm(FN)
     y = ndata[:FN] * w
   
   freqs = scipy.fftpack.fftfreq(FN, 1/FS)
-  mags = abs(scipy.fft(y))
+  mags = abs(scipy.fft.fft(y))
   
   
   # -------- log scale frequencies --------
@@ -155,7 +162,6 @@ def run():
     p = pst + i*pstep
     fr = 440 * 2**((p-69)/12)
     bars_labels.append(round(fr, 1))
-  
     
   dbfs0 = 20 * np.log10(mags * 2 / np.sum(w))
   fr_res0 = freqs[LIN_FREQ_FROM:LIN_FREQ_TO]
@@ -187,5 +193,4 @@ def run():
   plt.show()
   
 
-# ---
 run()

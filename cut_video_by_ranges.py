@@ -1,7 +1,20 @@
 # Extracts selected chunks from a video and merges them into a new video file
+# (uses ffmpeg)
 
 import subprocess
 import os
+
+prefix = 'output'
+
+data = {
+  'input': 'input.mp4',
+  'output': 'output.mp4',
+  'ranges': '''
+  00:00:11:01 00:11:04:09
+  00:18:05:02 00:37:00:00
+  00:43:45:05 00:58:03:00
+  '''
+}
 
 def calculate_duration(start_time: str, end_time: str) -> str:
   """
@@ -75,7 +88,6 @@ def cut_video(input_file: str, time_ranges: list[tuple[str, str]], output_prefix
   Returns:
     List of output chunk file names.
   """
-  
   if not os.path.exists('temp'):
     os.makedirs('temp')
   
@@ -102,9 +114,6 @@ def merge_chunks(chunk_files: list[str], output_file: str, time_ranges: list[tup
   Args:
     chunk_files: List of chunk file names to merge.
     output_file: Path to the output merged video file.
-
-  Returns:
-    None
   """
   print('Merging chunks into final output...')
   list_file = 'temp/mylist.txt'
@@ -118,25 +127,15 @@ def merge_chunks(chunk_files: list[str], output_file: str, time_ranges: list[tup
   print(f'Final output saved as "{output_file}"')
 
 
-# ----------------
+def run():
+  time_ranges = [tuple(line.split()) for line in data['ranges'].strip().split('\n')]
+  time_ranges = [(range[0][:8], range[1][:8]) for range in time_ranges]
 
-prefix = 'output'
+  chunks = cut_video(data['input'], time_ranges, prefix)
+  merge_chunks(chunks, data['output'], time_ranges)
 
-data = {
-  'input': 'input.mp4',
-  'output': 'output.mp4',
-  'ranges': '''
-  00:00:11:01 00:11:04:09
-  00:18:05:02 00:37:00:00
-  00:43:45:05 00:58:03:00
-  '''
-}
+  log_chunks_adjusted_times(time_ranges)
+  log_time_between_chunks(time_ranges)
 
-time_ranges = [tuple(line.split()) for line in data['ranges'].strip().split('\n')]
-time_ranges = [(range[0][:8], range[1][:8]) for range in time_ranges]
 
-chunks = cut_video(data['input'], time_ranges, prefix)
-merge_chunks(chunks, data['output'], time_ranges)
-
-log_chunks_adjusted_times(time_ranges)
-log_time_between_chunks(time_ranges)
+run()

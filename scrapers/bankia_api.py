@@ -1,8 +1,9 @@
 # Shows the account balance and last operations
 # using the GET/POST HTTP requests to a specific API
 
-import os, re, codecs, subprocess, json
-import shutil, stat, errno, sys, http, time
+# pip install requests pycryptodome
+
+import json
 import requests
 
 from datetime import datetime, timedelta
@@ -10,7 +11,6 @@ from getpass import getpass
 from pprint import pprint
 from base64 import b64decode, b64encode
 
-# pip install pycryptodome
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5
 
@@ -26,14 +26,7 @@ def run():
   # ---------------
   usr = getpass('')
   psw = getpass('')
-  # ------
-  # with open('_files/ubp.txt') as f: usr = f.read()
-  # with open('_files/pbu.txt') as f: psw = f.read()
-  # ------
-  # usr = '123'
-  # psw = '1234'
   # ---------------
-  
   
   # === [KEY] ===
   print('\n>> Calling /key')
@@ -185,7 +178,6 @@ def run():
         print('importe:', importe)
       
       ops.append('{:<+8.2f} :: {} :: "{}"'.format(importe, fecha, concepto))
-      # ops.append('{} :: {} :: "{}"'.format('{:+06.2f}'.format(importe), fecha, concepto))
     
   
   # ====== OUTPUT
@@ -197,5 +189,4 @@ def run():
   [print(op) for op in ops]
 
 
-# ------
 run()

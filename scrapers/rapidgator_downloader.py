@@ -49,7 +49,6 @@ def download_file(file_id, user_token):
   # -------- Connect
   url = 'http://rapidgator.net/api/v2/file/download?file_id={}&token={}'.format(file_id, user_token)
   
-# ====== [REQ] ======
   print('[REQ] {}'.format(url))
   try:
     resp = requests.get(url, timeout=20, headers=headers)
@@ -67,12 +66,10 @@ def download_file(file_id, user_token):
     print(resp.json())
     return False
   
-  
   # --------- Download
   url = jresp['download_url']
   print('== download_url: ' + url)
 
-# ====== [REQ] ======
   print('\n[REQ] {}'.format(url))
   try:
     resp = requests.get(url, stream=True, headers=headers)

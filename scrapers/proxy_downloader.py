@@ -1,12 +1,13 @@
 # Downloads a file with direct connection 
 # or using a proxy from a proxy list
 
-import time, os, codecs, re
+import codecs, re
 import requests
+
+URL = 'https://...'
 
 plist = ['1.1.1.1:1234']
 
-print('== Proxy Downloader ==')
 
 def check_proxy(p, https=True, timeout=5):
   res = True
@@ -16,20 +17,19 @@ def check_proxy(p, https=True, timeout=5):
     print('[http]...', end='')
     resp = requests.get('http://ip-api.com/json', proxies=proxies, timeout=timeout)
     json = resp.json()
-    # print(json)
     print('OK')
     
     if https and res:
       print('[https]...', end='')
       resp = requests.get('https://cat-fact.herokuapp.com/facts/', proxies=proxies, timeout=timeout)
       json = resp.json()
-      # print(json)
       print('OK')
   except:
     print('ERROR')
     res = False
   
   return res
+
 
 def format_size(byte_size, max_unit=''):
   byte_size = int(byte_size)
@@ -86,14 +86,11 @@ def download_file(url, proxies=None):
 
 
 def run(plist=[]):
-  url = 'https://...'
-  
   print('\n================\n  Downloading with the direct connection\n================')
-  res = download_file(url)
+  res = download_file(URL)
   if res:
     print('Downloading finished')
     return
-  
   
   print('\n\n================\n  Downloading with a proxy list\n================')
   total = len(plist)
@@ -107,10 +104,10 @@ def run(plist=[]):
       continue
     
     proxies = {"http":"http://"+p, "https":"https://"+p}
-    res = download_file(_file_id, _user_token, proxies)
+    res = download_file(URL, , proxies)
     if res:
       print('\nDownloading finished')
       return
 
-# ----------------
+
 run(plist)

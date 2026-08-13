@@ -7,6 +7,8 @@ import codecs
 import stat
 import traceback
 
+from_path = 'c:/'
+out_path_root = 'd:/_dir_struct'
 
 def format_size(byte_size):
   for unit in ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z']:
@@ -14,7 +16,6 @@ def format_size(byte_size):
       return "%d%s" % (byte_size, unit)
     byte_size /= 1024.0
   return "%d%s" % (byte_size, 'Yi')
-
 
 def log(msg):
   try:
@@ -24,9 +25,7 @@ def log(msg):
 
 
 def run():
-  from_path = 'c:/'
-  out_path_root = 'd:/_dir_struct'
-  error_log_path = 'd:/_dir_struct/_dir_struct_dump_errors.log'
+  error_log_path = out_path_root + '/errors.log'
   
   # ----------------------
   out_dir = os.path.basename(from_path)
@@ -45,7 +44,7 @@ def run():
   # ----------------------
   
   for root, dirs, files in os.walk(from_path):
-    # if out path is inside the from path, prevent infinite-recursive walk 
+    # If out path is inside the from path, prevent infinite-recursive walk 
     if root == out_path_root:
       dirs[:] = []
       files[:] = []
@@ -60,7 +59,7 @@ def run():
     
     for subdir in dirs:
       try:
-        # prevent dest folder creation, if out path is inside the from path
+        # Prevent dest folder creation, if out path is inside the from path
         if os.path.normpath(from_path + '/' + subdir) == out_path_root:
           continue
         
@@ -101,5 +100,4 @@ def run():
     
   error_log.close()
   
-# ---
 run()

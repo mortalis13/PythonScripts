@@ -67,7 +67,6 @@ def get_data(url_str, country):
   r = requests.get(url_str)
   content = r.content
   content = content.decode()
-  # print(content)
   f = StringIO(content)
 
   cin = csv.DictReader(f)
@@ -82,7 +81,6 @@ def get_data(url_str, country):
       his = {}
 
       for item in row:
-        # print('{}: {}'.format(item, row[item]))
         if i > 3:
           date_parts = item.split('/')
           date_parts = ['{:02d}'.format(int(p)) for p in date_parts]
@@ -149,7 +147,6 @@ def build_xls(country, num_values, workbook):
     'categories':  [sheet_name, 1, xc, num_values, xc],
     'values':      [sheet_name, 1, xc+1, num_values, xc+1],
     'line':        {'width': 3, 'color': '#4a7ebb', 'transparency': 30},
-    # 'data_labels': {'value': True, 'position': 'above', 'font': {'name': 'Consolas', 'size': 14, 'bold': True}},
   })
 
   chart.add_series({
@@ -180,14 +177,11 @@ def build_xls(country, num_values, workbook):
     'major_gridlines': {'visible': True, 'line': {'color': '#cccccc'}}
   })
 
-  # chart.set_drop_lines()
-  # chart.set_legend({'none': True})
-
   worksheet.insert_chart(0, xc+5, chart, {'x_scale': 2.8, 'y_scale': 2.4})
 
 
 def run():
-  print('==covid_stat_csv\n')
+  print('== covid_stat_csv\n')
   global countries
 
   data_xls_path = generate_next_filename(Values.data_xls_path)
@@ -201,5 +195,4 @@ def run():
   print('data_xls_path: "{}"'.format(data_xls_path))
 
 
-# -----
 run()

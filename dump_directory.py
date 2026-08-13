@@ -5,6 +5,9 @@ import os
 import codecs
 import traceback
 
+from_path = 'd:/'
+result = 'd:/dir_tree.txt'
+
 def log(msg):
   try:
     print(msg)
@@ -12,18 +15,16 @@ def log(msg):
     pass
 
 def run():
-  from_path = 'd:/'
-  out_path = 'd:/dir_tree.txt'
-  error_log_path = 'd:/dir_errors.log'
+  error_log_path = os.path.join(os.path.dirname(result), 'errors.log')
   
-  log(f'Scanning "{from_path}" to "{out_path}"')
+  log(f'Scanning "{from_path}" to "{result}"')
   
   # ----------------------
-  if not os.path.exists(os.path.dirname(out_path)):
-    os.makedirs(os.path.dirname(out_path))
+  if not os.path.exists(os.path.dirname(result)):
+    os.makedirs(os.path.dirname(result))
   
   error_log = codecs.open(error_log_path, encoding='utf-8', mode='w')
-  out = codecs.open(out_path, encoding='utf-8', mode='w')
+  out = codecs.open(result, encoding='utf-8', mode='w')
   
   from_path = os.path.normpath(from_path)
   # ----------------------
@@ -68,5 +69,4 @@ def run():
   out.close()
 
 
-# ---
 run()

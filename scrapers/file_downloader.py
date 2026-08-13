@@ -1,7 +1,9 @@
 # Direct file downloader
 # Uses a text file with list of URLs
 
-import requests, re, codecs, os
+# pip install requests
+
+import requests, codecs, os
 
 from modules.file_system_functions import *
 from modules.general_functions import *

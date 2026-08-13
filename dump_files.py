@@ -2,24 +2,26 @@
 
 import os, codecs
 
-def get_tree_list(dir):
-  exts = [
-    'pdf',
-    'chm',
-    'djvu'
-  ]
+from_path = 'd:/'
+result = 'd:/flat_tree.txt'
+
+ext_filter = [
+  'pdf',
+  'chm',
+  'djvu'
+]
+
+def run():
+  res_file = codecs.open(result, encoding='utf-8', mode='w')
   
-  res_file_path = 'd:/flat_tree.txt'
-  res_file = codecs.open(res_file_path, encoding='utf-8', mode='w')
+  root_len = len(from_path)
   
-  root_len = len(dir)
-  
-  for root, dirs, files in os.walk(dir):
+  for root, dirs, files in os.walk(from_path):
     out_files = []
     
     for file in files:
       file_name, file_ext = os.path.splitext(file)
-      if len(file_ext) != 0 and file_ext[1:].lower() in exts:
+      if len(file_ext) != 0 and file_ext[1:].lower() in ext_filter:
         out_files.append(file)
 
     if len(out_files) != 0:
@@ -34,6 +36,4 @@ def get_tree_list(dir):
   
   print('Finish')
 
-# ---
-f = 'd:/'
-get_tree_list(f)
+run()

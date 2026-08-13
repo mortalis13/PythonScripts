@@ -2,13 +2,13 @@
 # Gets HTML code from a series of pages
 # and finds elements using jQuery selectors
 
-import os, re, codecs, subprocess, time, random
+# pip install requests pyquery
+
+import codecs, time
 from datetime import datetime
 
 import requests
 from pyquery import PyQuery as pq
-
-# pip install requests pyquery
 
 
 def process_url(url):
@@ -24,7 +24,9 @@ def process_url(url):
       link = links.eq(i)
       text += link.html().strip() + ' :: ' + link.attr.href + '\n'
     
-    # item_price = d('.product-price-box .price').eq(0).text()
+    item_price = d('.product-price-box .price').eq(0).text()
+    text += item_price + '\n'
+    
   except Exception as ex:
     print('Error: ' + str(ex))
     text = str(ex)
@@ -33,14 +35,14 @@ def process_url(url):
 
 
 def run():
-  # use generated list of pages or a static urls list
-  prefix = 'https://abc.net/forum?page='
-  urls = [prefix+str(x) for x in range(1,101)]
-  
+  # Use a static URLs list or a generated list of pages
   urls = [
     'http://url-1.net',
     'http://url-2.net',
   ]
+  
+  # prefix = 'https://abc.net/forum?page='
+  # urls = [prefix+str(x) for x in range(1,101)]
   
   f = codecs.open('scrape_result.txt', 'w', 'utf-8')
   
@@ -57,5 +59,4 @@ def run():
   f.close()
   
   
-# ---
 run()

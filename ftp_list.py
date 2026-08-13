@@ -1,31 +1,24 @@
-# Write list of files/folders in a FTP directory
-# (directly in a folder or recursively get subtree)
-# Tries to convert names with non-UTF russian characters
+# Writes list of files/folders in a FTP directory
+# Tries to convert names with non-UTF cyrillic characters
 
-import os, re, codecs, subprocess
-import shutil, stat, errno, sys, traceback
-
+import codecs
 import ftplib
-from ftplib import FTP
-import encodings.idna
 
-from modules.file_system_functions import *
-from modules.general_functions import *
+HOST = ''
+USER = ''
+PASS = ''
 
-
-ftp = FTP('host', 'user', 'pass', timeout=60)
+ftp = ftplib.FTP(HOST, USER, PASS, timeout=60)
 
 def get_ftp_list(dir_path):
   files_list = []
   
   try:
-    # ftp.cwd(dir_path)
     files_list = ftp.nlst(dir_path)
   except ftplib.error_perm:
     pass
     
   return files_list
-
 
 def writeItem(f, item, pad, line_num):
   try:
@@ -40,14 +33,9 @@ def writeItem(f, item, pad, line_num):
   f.write(pad + item + '\n')
   f.flush()
 
-
 # Recursion
 def extract_ftp_dir(root_path, f, lev):
-  # if lev == 3:
-  #   return
-  
   pad = '    '*lev
-  
   print('Scanning ' + pad + '[' + str(lev) + ']')
   
   files_list = get_ftp_list(root_path)
@@ -59,37 +47,41 @@ def extract_ftp_dir(root_path, f, lev):
     extract_ftp_dir(root_path + '/' + item, f, lev+1)
 
     
-def write_dir_list(dir_path, out_file):
+def write_file_tree(*paths):
+  result_folder = paths[-1]
+  dirs = paths[:-1]
+  
+  for dir_name in dirs:
+    root_path = '/' + dir_name
+
+    dir_name = 'root' if dir_name == '/' else dir_name.replace('/', '--')
+    fp = os.path.join(result_folder, 'ftp_' + dir_name + '.txt')
+    
+    f = codecs.open(fp, 'w', encoding='utf8')
+    extract_ftp_dir(root_path, f, 0)
+    f.close()
+    
+  ftp.quit()
+
+def write_file_list(dir_path, result_folder):
   files_list = get_ftp_list(dir_path)
-  enc = 'utf8'
-  f = codecs.open(out_file, 'w', encoding=enc)
+  
+  out_file = os.path.basename(dir_path) or 'root'
+  out_file = os.path.join(result_folder, 'ftp_' + out_file + '.txt')
+  
+  f = codecs.open(out_file, 'w', encoding='uft8')
   for item in files_list:
     writeItem(f, item, '', 0)
   f.close()
   
 
-def write_dir_tree():
-  dirs = [
-    'dir_1',
-    'dir_2',
-    'dir_3',
-  ]
+def run():
+  result_folder = 'c:/'
   
-  for dir_name in dirs:
-    root_path = '/' + dir_name
-    dir_name = dir_name.replace('/', '-')
-    
-    enc = 'utf8'
-    fp = 'e:/ftp_' + dir_name + '.txt'
-    f = codecs.open(fp, 'w', encoding=enc)
-    
-    extract_ftp_dir(root_path, f, 0)
-    
-    f.close()
-    
-  ftp.quit()
+  write_file_tree('/', result_folder)
+  write_file_tree('dir1', 'dir2', result_folder)
   
+  write_file_list('/', result_folder)
 
-# ---
-# write_dir_tree()
-write_dir_list('/', 'e:/ftp_list.txt')
+
+run()

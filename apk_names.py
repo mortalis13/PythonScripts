@@ -7,6 +7,7 @@ from dataclasses import dataclass
 
 os.environ['PATH'] = '/android-sdk/build-tools/35.0.0'
 
+folder = '/apk-files'
 
 @dataclass
 class ApkInfo:
@@ -39,7 +40,7 @@ def get_apk_data(apk_path: str) -> ApkInfo | None:
     return None
 
 
-def main(folder_path: str) -> None:
+def run(folder_path: str) -> None:
   data = {}
   for file_name in os.listdir(folder_path):
     if file_name.endswith('.apk'):
@@ -56,5 +57,4 @@ def main(folder_path: str) -> None:
     print(f'{apk_info.app_name} :: [{apk_info.package_name}] => ({file_name})')
 
 
-folder_path = '/apk-files'
-main(folder_path)
+run(folder)

@@ -1,17 +1,9 @@
-# Finds artcle with max body size
-# in a DSL dictionary
+# Finds artcle with max body size in a DSL dictionary
 
-import os, re, codecs, subprocess
-import time, random, requests
-import shutil, stat, errno, sys, http
+import codecs
 
-from modules.file_system_functions import *
-from modules.general_functions import *
-
-
-def find_max_body_len():
+def run():
   fp = 'data/EsEn_Vox_School.dsl'
-  
   f = codecs.open(fp, 'r', 'utf16')
   
   i = 1
@@ -41,6 +33,4 @@ def find_max_body_len():
   print(maxLine)
 
 
-# ---
-
-find_max_body_len()
+run()

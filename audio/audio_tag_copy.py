@@ -1,12 +1,11 @@
 # Copies mp3 tags from files in one folder to the files with the same names in another folder
+
 # pip install eyed3
 
 import os
 import eyed3
 
 from modules.file_system_functions import *
-from modules.general_functions import *
-
 
 path_src = 'c:/original_files_path/'
 path_dst = 'c:/new_files_path/'
@@ -44,4 +43,4 @@ for f0 in src_files:
     copy_tags(f0, f1)
     done += 1
 
-print(f'\nsource: {len(src_files)}, dest: {done}\n\n')
+print(f'\nsource: {len(src_files)}, dest: {done}')

@@ -9,20 +9,19 @@
 # and just copies the next [data_size] bytes to a new file
 
 # Input data:
-#   fps -> array of paths to binary files
+#   files -> array of paths to binary files
 #   out_dir -> path to the output folder
 # Paths can be absolute (c:\folder...) or relative to the script location
 # The output WAV files are named according to the pattern 'audio_001.wav'
 
-# --- DATA
-fps = [
-  'data/MinionVoiceData_ENGLISH.pvp'
+import os
+import codecs
+
+files = [
+  '../data/MinionVoiceData_ENGLISH.pvp',
 ]
-out_dir = 'data/wavs'
-# --------
+out_dir = '../data/wavs'
 
-
-import codecs, os
 
 def write_wav(f, out_path):
   print('..write_wav(): {}'.format(out_path))
@@ -46,7 +45,8 @@ def write_wav(f, out_path):
       fo.write(wav_data)
       break
   fo.close()
-  
+
+
 def extract_audio(fp, out_dir):
   print('..extract_audio(): {}\n'.format(fp))
   f = codecs.open(fp, 'rb')
@@ -72,9 +72,5 @@ def extract_audio(fp, out_dir):
   f.close()
 
 
-def run():
-  for fp in fps:
-    extract_audio(fp, out_dir)
-  
-# ---
-run()
+for fp in files:
+  extract_audio(fp, out_dir)

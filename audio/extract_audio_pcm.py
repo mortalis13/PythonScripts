@@ -1,16 +1,18 @@
-
 # Extracts audio samples from a .wav file
 # and writes them as a Python list
 
+# pip install scipy matplotlib
+
+import math
+import codecs
 
 import scipy.io.wavfile as wavfile
-import math, codecs
 
 
 audio_path = '../data/sine_440_hz.wav'
 out_file = '440_hex.py'
 
-fs_rate, data = wavfile.read(audio_path)
+rate, data = wavfile.read(audio_path)
 
 f = codecs.open(out_file, encoding='utf-8', mode='w')
 f.write('data = [\n')

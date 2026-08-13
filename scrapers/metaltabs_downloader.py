@@ -5,40 +5,14 @@
 # some text tabs can be downloaded, some not.
 # Set PARSE_LETTERS to a list of band letters to process
 
+# pip install requests pyquery
+
 import os, re
 
 import requests
 from pyquery import PyQuery as pq
 
 PARSE_LETTERS = ['A']
-
-# 0-9 -> 16
-# A -> 453
-# B -> 266
-# C -> 229
-# D -> 328
-# E -> 174
-# F -> 127
-# G -> 151
-# H -> 150
-# I -> 135
-# J -> 45
-# K -> 112
-# L -> 133
-# M -> 222
-# N -> 150
-# O -> 111
-# P -> 164
-# Q -> 6
-# R -> 144
-# S -> 413
-# T -> 332
-# U -> 44
-# V -> 125
-# W -> 143
-# X -> 14
-# Y -> 9
-# Z -> 20
 
 class ConnectionRetriesOverflow(Exception): pass
 
@@ -168,5 +142,5 @@ def run():
       
       print()
   
-# ---
+
 run()

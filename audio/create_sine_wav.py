@@ -5,7 +5,6 @@
 import numpy as np
 from scipy.io import wavfile
 
-
 frequency = 440
 gain = 0.5
 sampleRate = 44100

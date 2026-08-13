@@ -1,21 +1,15 @@
-
 # Manual calculation of FFT using basic formulas
 # Prints frequency bands (bins) and corresponding magnitudes
 # as well as the calculated magnitude for the selected frequency value (FR)
 
+# pip install numpy
 
-import scipy.io.wavfile as wavfile
-import scipy
-import scipy.fftpack
-from scipy.signal.windows import *
-import numpy as np
-from matplotlib import pyplot as plt
-
-import math, codecs
+import math
 import cmath
 
 from imp.sine_440_hex import *
 
+import numpy as np
 
 def run():
   MAXS = 32768
@@ -30,7 +24,6 @@ def run():
   ndata = np.array(data_440)
   ndata = ndata / MAXS
   ndata = ndata[:N]
-  
   
   # Magnitude for exact frequency (FR) in Hz
   # Formula: SUM[x(n) * exp(-2pi*i*w*n)], where w - the frequency, i - imaginary unit
@@ -51,7 +44,6 @@ def run():
   print(abs(dsum))
   print()
 
-  
   # Get magnitudes for first M bands (each FS/N Hz wide)
   # The same formula but for discrete 'k' values
   fft_data = []
@@ -69,5 +61,4 @@ def run():
     freq += freq_width
   
 
-# ---
 run()

@@ -1,33 +1,31 @@
-# Extract a list of Java 'import' statements
+# Extracts a list of Java 'import' statements
 # from all .java files in a folder and its subfolders
 
-import os, re, codecs, subprocess, time, random
-import shutil, stat, errno, sys, ssl, traceback
+# pip install chardet
 
-from modules.file_system_functions import *
-from modules.general_functions import *
-
+import re, codecs, traceback
 import chardet
 
+from modules.file_system_functions import *
+
+
+input_folder = 'c:/projects'
+result = 'data/java_imports.txt'
 
 def run():
-  fpout = 'e:/Documents/java_imports.txt'
-  fout = codecs.open(fpout, 'w', 'utf8')
-  
-  d = 'e:/Documents/code/projects'
-  fs = get_filepaths_in_tree_ext(d, 'java')
+  fout = codecs.open(result, 'w', 'utf8')
+  fs = get_filepaths_in_tree_ext(input_folder, 'java')
   
   re_pat_import = 'import (.+)?;'
   
-  for fp in fs:
+  for file in fs:
     try:
-      fp = '\\\\?\\' + fp
+      file = '\\\\?\\' + file
       
-      enc = 'utf8'
-      opts = chardet.detect(open(fp, "rb").read())
+      opts = chardet.detect(open(file, "rb").read())
       enc = opts['encoding']
       
-      f = codecs.open(fp, 'r', enc)
+      f = codecs.open(file, 'r', enc)
       text = f.read()
       f.close()
       
@@ -38,11 +36,11 @@ def run():
       
       fout.write(imports + '\n\n')
       fout.flush()
+    
     except:
-      print('\n-- Read Exception: ' + fp + '\n')
+      print('\n-- Read Exception: ' + file + '\n')
       traceback.print_exc()
     
   fout.close()
-  
   
 run()
