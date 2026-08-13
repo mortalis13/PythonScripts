@@ -1,41 +1,29 @@
-# Get random album from a folder (also scans subfolders)
-# and copy it to another directory
+# Gets a random album from a folder and copies it to another folder
 
-import random, subprocess, shutil
+import random, shutil
 
 from modules.file_system_functions import *
 
-
-rd = 'j:/Music/Metal'
-copy_to = 'e:/Documents/audio'
-
-# CHCP 65001
+path = 'c:/music'
+dest = 'c:/playlist'
 
 def run():
-  print('start')
-  
   all_albums = []
-  
-  dirs = get_dirpaths(rd)
-  for d in dirs:
-    albums = get_dirpaths(d)
-    for album_path in albums:
-      album_files = get_filepaths_in_tree_ext(album_path, 'mp3')
-      if len(album_files):
-        all_albums.append(album_path)
 
-  album_id = random.randint(0, len(all_albums)-1)
-  
+  bands = get_dirpaths(path)
+  for band in bands:
+    albums = get_dirpaths(band)
+
+    for album in albums:
+      album_files = get_filepaths_in_tree_ext(album, 'mp3')
+      if len(album_files):
+        all_albums.append(album)
+
+  album_id = random.randint(0, len(all_albums) - 1)
+
   album_path = all_albums[album_id]
   album_name = os.path.basename(album_path)
-  
-  # open in explorer
-  # subprocess.Popen(r'explorer /select,"' + album_path + '"')
-  
-  # copy album
-  album_name = 'Album_' + str(album_id)
-  folder_src = album_path
-  folder_dest = copy_to + '/' + album_name
-  shutil.copytree(folder_src, folder_dest)
+
+  shutil.copytree(album_path, os.path.join(dest, album_name))
 
 run()

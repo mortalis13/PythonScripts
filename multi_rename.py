@@ -8,13 +8,11 @@ rename_map = {
 }
 
 def run():
-  print('== multi_rename ==')
-  
-  for k in rename_map:
-    fin = k
-    fout = rename_map[k]
-    if os.path.exists(fin):
-      print('"{}" => \n"{}"\n'.format(fin, fout))
-      os.rename(fin, fout)
-    
+  for src in rename_map:
+    dest = rename_map[src]
+
+    if os.path.exists(src):
+      print('"{}" => \n"{}"\n'.format(src, dest))
+      os.rename(src, dest)
+
 run()

@@ -1,29 +1,24 @@
-# Combine text files in a folder into 1 file
+# Combines text files from a folder
 
-import os, re, codecs, subprocess
+import codecs
 
 from modules.file_system_functions import *
 
+path = 'c:/logs'
+result = 'c:/merged.txt'
 
 def merge_files(files_list, out_file):
-  print('Start merging')
-  
   outfile = codecs.open(out_file, encoding='utf-8', mode='w')
-  
-  for fname in files_list:
-    infile = codecs.open(fname, encoding='utf-8', mode='r')
-    for line in infile:
-      line = line.strip()
-      outfile.write(line + '\n')
-    infile.close()
-  
-  outfile.close()
-  
-  print('End')
-  
-  
-# ---
-f_list = get_filepaths('e:/logs')
-out_file = 'c:/_all.txt'
 
-merge_files(f_list, out_file)
+  for file in files_list:
+    f = codecs.open(file, encoding='utf-8', mode='r')
+    outfile.write(f.read())
+    f.close()
+
+  outfile.close()
+
+def run():
+    files = get_filepaths(path)
+    merge_files(files, result)
+
+run()
