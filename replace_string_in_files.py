@@ -1,7 +1,5 @@
 # Replaces a string in all files in a folder
 
-import codecs
-
 from modules.file_system_functions import *
 
 path = 'c:/project'
@@ -15,14 +13,13 @@ exclude_dirs = [
 ]
 
 def replace_in_file(file_path, src_str, dest_str):
-  file = codecs.open(file_path, encoding='utf-8', mode='r')
-  doc = file.read()
+  with open(file_path, 'r', encoding='utf-8') as file:
+    doc = file.read()
+  
   res = doc.replace(src_str, dest_str)
-  file.close()
 
-  file = codecs.open(file_path, encoding='utf-8', mode='w')
-  file.write(res)
-  file.close()
+  with open(file_path, 'w', encoding='utf-8') as file:
+    file.write(res)
 
   return True
 
@@ -37,6 +34,5 @@ def run():
   total = len(files)
 
   print('\nFinish. Replaced ' + str(replaced) + '/' + str(total))
-
 
 run()

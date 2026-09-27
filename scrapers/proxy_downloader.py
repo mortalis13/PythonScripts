@@ -1,7 +1,7 @@
 # Downloads a file with direct connection 
 # or using a proxy from a proxy list
 
-import codecs, re
+import re
 import requests
 
 URL = 'https://...'
@@ -71,16 +71,15 @@ def download_file(url, proxies=None):
   print('\nWriting to "{}"'.format(fp))
   done = 0
 
-  f = codecs.open(fp, 'wb')
-  try:
-    for chunk in resp.iter_content(512):
-      done += f.write(chunk)
-      print('[DONE] {} / {}     \r'.format(format_size(done), format_size(total_bytes)), end='')
-    print()
-  except:
-    print('\n[SKIP] Exception reading data')
-    return False
-  f.close()
+  with open(fp, 'wb') as f:
+    try:
+      for chunk in resp.iter_content(512):
+        done += f.write(chunk)
+        print('[DONE] {} / {}     \r'.format(format_size(done), format_size(total_bytes)), end='')
+      print()
+    except:
+      print('\n[SKIP] Exception reading data')
+      return False
   
   return True
 

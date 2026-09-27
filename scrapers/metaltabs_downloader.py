@@ -14,6 +14,7 @@ from pyquery import PyQuery as pq
 
 PARSE_LETTERS = ['A']
 
+
 class ConnectionRetriesOverflow(Exception): pass
 
 def normalize_filename(val):

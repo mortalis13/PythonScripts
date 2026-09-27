@@ -4,7 +4,7 @@
 
 # pip install rarfile
 
-import codecs, os
+import os
 import zipfile
 import rarfile
 
@@ -12,25 +12,22 @@ from modules.file_system_functions import *
 
 def find_file(file_name, folder):
   out_file = 'output.txt'
-  f = codecs.open(out_file, 'w', 'utf8')
-  
   zip_files = get_filepaths(folder)
   
-  for zip_file in zip_files:
-    try:
-      zip = zipfile.ZipFile(zip_file)
-    except zipfile.BadZipFile:
-      continue
-      
-    print(zip_file)
-    files = zip.namelist()
-    
-    if file_name in files:
-      f.write(zip_file + '\n')
-      f.flush()
-      
-  f.close()
+  with open(out_file, 'w', encoding='utf-8') as f:
+    for zip_file in zip_files:
+      try:
+        zip = zipfile.ZipFile(zip_file)
+      except zipfile.BadZipFile:
+        continue
 
+      print(zip_file)
+      files = zip.namelist()
+      
+      if file_name in files:
+        f.write(zip_file + '\n')
+        f.flush()
+      
 
 def unpack_rar(path):
   print(f'Extracting "{path}"...\n')

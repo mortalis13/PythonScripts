@@ -3,12 +3,12 @@
 # Set the 'from_path' and 'out_path' variables before running
 
 import os
-import codecs
 import stat
 import traceback
 
 from_path = 'c:/'
 out_path_root = 'd:/_dir_struct'
+
 
 def format_size(byte_size):
   for unit in ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z']:
@@ -36,7 +36,7 @@ def run():
   if not os.path.exists(out_path):
     os.makedirs(out_path)
   
-  error_log = codecs.open(error_log_path, encoding='utf-8', mode='w')
+  error_log = open(error_log_path, 'w', encoding='utf-8')
   
   from_path = os.path.normpath(from_path)
   out_path_root = os.path.normpath(out_path_root)

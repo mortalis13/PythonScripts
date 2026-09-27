@@ -14,6 +14,7 @@ LANG = 'en'
 
 out_file = 'google_{}.html'.format(SEARCH_TERM)
 
+
 def run():
   url = "https://www.google.com/search?q={}&num={}&hl={}".format(SEARCH_TERM, NUM, LANG)
   print('==============\n' + url)

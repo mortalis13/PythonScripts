@@ -7,7 +7,6 @@
 # pip install numpy scipy matplotlib
 
 import math
-import codecs
 
 import numpy as np
 import scipy.io.wavfile as wavfile
@@ -18,7 +17,6 @@ from scipy.signal import windows
 from matplotlib import pyplot as plt
 
 from imp.sine_440_hex import *
-
 
 # Hamming window function
 def whamm(M):
@@ -42,10 +40,9 @@ def whann(M):
 def to_file(fp, arr, N = 0, fmt = '{}'):
   if N == 0: N = len(arr)
   
-  f = codecs.open(fp, encoding='utf-8', mode='w')
-  for i in range(0, N):
-    f.write(fmt.format(arr[i]) + '\n')
-  f.close()
+  with open(fp, 'w', encoding='utf-8') as f:
+    for i in range(0, N):
+      f.write(fmt.format(arr[i]) + '\n')
 
 
 # --- MAIN ---

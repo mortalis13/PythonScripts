@@ -9,7 +9,6 @@ from scipy.io import wavfile
 import matplotlib.pyplot as plt
 from matplotlib.ticker import ScalarFormatter
 
-
 def plot_audio(wave_x, wave_y, fft_x, fft_y, max_freq = 0, freq_log_scale = False):
   _, (ax1, ax2) = plt.subplots(2)
 

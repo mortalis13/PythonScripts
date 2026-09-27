@@ -3,11 +3,11 @@
 
 import sys
 import re
-import codecs
 import requests
 
 EMAIL = ''
 PASS = ''
+
 
 def format_size(byte_size, max_unit=''):
   byte_size = int(byte_size)
@@ -96,16 +96,15 @@ def download_file(file_id, user_token):
   print('\nWriting to "{}"'.format(fp))
   done = 0
 
-  f = codecs.open(fp, 'wb')
-  try:
-    for chunk in resp.iter_content(512):
-      done += f.write(chunk)
-      print('[DONE] {} / {}     \r'.format(format_size(done), format_size(total_bytes)), end='')
-    print()
-  except Exception as e:
-    print(f'\n[SKIP] Exception reading data: {e}')
-    return False
-  f.close()
+  with open(fp, 'wb') as f:
+    try:
+      for chunk in resp.iter_content(512):
+        done += f.write(chunk)
+        print('[DONE] {} / {}     \r'.format(format_size(done), format_size(total_bytes)), end='')
+      print()
+    except Exception as e:
+      print(f'\n[SKIP] Exception reading data: {e}')
+      return False
   
   return True
 

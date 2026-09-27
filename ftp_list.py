@@ -1,12 +1,12 @@
 # Writes list of files/folders in a FTP directory
 # Tries to convert names with non-UTF cyrillic characters
 
-import codecs
 import ftplib
 
 HOST = ''
 USER = ''
 PASS = ''
+
 
 ftp = ftplib.FTP(HOST, USER, PASS, timeout=60)
 
@@ -20,6 +20,7 @@ def get_ftp_list(dir_path):
     
   return files_list
 
+
 def writeItem(f, item, pad, line_num):
   try:
     item = item.encode('latin-1').decode('utf-8')
@@ -32,6 +33,7 @@ def writeItem(f, item, pad, line_num):
   
   f.write(pad + item + '\n')
   f.flush()
+
 
 # Recursion
 def extract_ftp_dir(root_path, f, lev):
@@ -55,24 +57,23 @@ def write_file_tree(*paths):
     root_path = '/' + dir_name
 
     dir_name = 'root' if dir_name == '/' else dir_name.replace('/', '--')
-    fp = os.path.join(result_folder, 'ftp_' + dir_name + '.txt')
+    file = os.path.join(result_folder, 'ftp_' + dir_name + '.txt')
     
-    f = codecs.open(fp, 'w', encoding='utf8')
-    extract_ftp_dir(root_path, f, 0)
-    f.close()
+    with open(file, 'w', encoding='utf-8') as f:
+      extract_ftp_dir(root_path, f, 0)
     
   ftp.quit()
+
 
 def write_file_list(dir_path, result_folder):
   files_list = get_ftp_list(dir_path)
   
-  out_file = os.path.basename(dir_path) or 'root'
-  out_file = os.path.join(result_folder, 'ftp_' + out_file + '.txt')
+  file = os.path.basename(dir_path) or 'root'
+  file = os.path.join(result_folder, 'ftp_' + file + '.txt')
   
-  f = codecs.open(out_file, 'w', encoding='uft8')
-  for item in files_list:
-    writeItem(f, item, '', 0)
-  f.close()
+  with open(file, 'w', encoding='utf-8') as f:
+    for item in files_list:
+      writeItem(f, item, '', 0)
   
 
 def run():

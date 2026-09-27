@@ -1,6 +1,5 @@
 import os, re
 
-
 def regex_search(text, pat, group=False, match_case=False):
   match = re.search(pat, text)
   if not match_case:
@@ -9,6 +8,7 @@ def regex_search(text, pat, group=False, match_case=False):
   if match:
     res = match.group(group)
     return res
+
 
 def regex_search_all_groups(text, pat, match_case=False):
   match = re.search(pat, text)
@@ -21,6 +21,7 @@ def regex_search_all_groups(text, pat, match_case=False):
       res += group
     return res
 
+
 def regex_match(text, pat, group=False, match_case=False):
   match = re.search(pat, text)
   if not match_case:
@@ -31,21 +32,27 @@ def regex_match(text, pat, group=False, match_case=False):
         
   return False
 
+
 def regex_replace(text, pat, re_repl_func):
   res = re.sub(pat, re_repl_func, text)
   return res
-  
+
+
 def re_camel_func(match):
   return match.group(1).upper()
 
+
 def title_lowercase_first(text):
   return text[0].lower() + text[1:]
-  
+
+
 def title_uppercase_first(text):
   return text[0].upper() + text[1:]
 
+
 def swap_case_first_letter(txt):
   return txt[0].swapcase() + txt[1:]
+
 
 def normalize_filename(val):
   remove_symbols = [':', '\"', '?', '*', '¿', '¡']
@@ -57,6 +64,7 @@ def normalize_filename(val):
     val = val.replace(sym, '-')
     
   return val
+
 
 def format_size(byte_size, max_unit=''):
   byte_size = int(byte_size)

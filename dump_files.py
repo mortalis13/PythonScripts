@@ -1,6 +1,6 @@
 # Writes flat file tree to a text file
 
-import os, codecs
+import os
 
 from_path = 'd:/'
 result = 'd:/flat_tree.txt'
@@ -12,8 +12,7 @@ ext_filter = [
 ]
 
 def run():
-  res_file = codecs.open(result, encoding='utf-8', mode='w')
-  
+  out_file = open(result, 'w', encoding='utf-8')
   root_len = len(from_path)
   
   for root, dirs, files in os.walk(from_path):
@@ -27,13 +26,11 @@ def run():
     if len(out_files) != 0:
       root = os.path.normpath(root)
       root = root[root_len:]
-      res_file.write('\n' + root + '\n')
+      out_file.write('\n' + root + '\n')
       
       for file in out_files:
-        res_file.write('    ' + file + '\n')
+        out_file.write('    ' + file + '\n')
       
-  res_file.close()
-  
-  print('Finish')
+  out_file.close()
 
 run()

@@ -9,7 +9,6 @@
 # pip install urllib3==1.25.11 requests pycryptodomex
 
 import base64, hashlib, binascii
-import codecs
 import requests, webbrowser, uuid
 
 from datetime import datetime
@@ -270,21 +269,20 @@ def run():
   date_str = datetime.now().strftime('%Y_%m_%d')
   fn = 'keep_notes_{}.txt'.format(date_str)
   
-  f = codecs.open(fn, 'w', 'utf8')
-  for note in notes_list:
-    f.write('Note: [' + note['title'] + ']')
-    if note['isPinned']:
-      f.write(' [PINNED]')
-    if note['isArchived']:
-      f.write(' [ARCHIVE]')
-    if note['isTrashed']:
-      f.write(' [DELETED]')
-    f.write('\n')
-    f.write('------------------------------------------\n')
-    
-    f.write(note['text'] + '\n')
-    f.write('------------------------------------------\n\n\n')
-  f.close()
+  with open(fn, 'w', encoding='utf8') as f:
+    for note in notes_list:
+      f.write('Note: [' + note['title'] + ']')
+      if note['isPinned']:
+        f.write(' [PINNED]')
+      if note['isArchived']:
+        f.write(' [ARCHIVE]')
+      if note['isTrashed']:
+        f.write(' [DELETED]')
+      f.write('\n')
+      f.write('------------------------------------------\n')
+      
+      f.write(note['text'] + '\n')
+      f.write('------------------------------------------\n\n\n')
   
   print('\n>>> File written: \'' + fn + '\'')
   

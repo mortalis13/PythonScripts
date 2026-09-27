@@ -14,6 +14,7 @@ from PIL import Image
 
 path = 'c:/book_pdfs'
 
+
 def append_pdf(input,output):
   [output.addPage(input.getPage(page_num)) for page_num in range(input.numPages)]
 

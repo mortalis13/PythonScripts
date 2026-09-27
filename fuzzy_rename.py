@@ -12,6 +12,7 @@ import rapidfuzz
 root = 'c:/files'
 mapping_file = 'c:/map'
 
+
 def normalize_filename(text):
   symbols = r'[:\"?\*¿¡<>/\\|]'
   text = re.sub(symbols, '.', text)

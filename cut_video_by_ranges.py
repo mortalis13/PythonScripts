@@ -16,6 +16,7 @@ data = {
   '''
 }
 
+
 def calculate_duration(start_time: str, end_time: str) -> str:
   """
   Calculates the duration between two time points.

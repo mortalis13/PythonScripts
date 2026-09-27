@@ -3,7 +3,7 @@
 # This reflects the 'Proxy server' section in the 
 # 'Control Panel -> Internet Options -> Connections -> LAN Settings'
 
-import os, codecs
+import os
 import winreg
 import requests
 
@@ -110,7 +110,7 @@ def run(plist=[]):
   if not os.path.exists(fp):
     f = open(fp, 'w'); f.close()
   
-  f = codecs.open(fp, 'r+')
+  f = open(fp, 'r+')
   used_proxies = f.readlines()
   used_proxies = [x.strip() for x in used_proxies]
   

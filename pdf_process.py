@@ -13,6 +13,7 @@ from modules.file_system_functions import *
 
 path = 'c:/pdfs/'
 
+
 def get_pdf_author_subject(path):
   f = open(path, 'rb')
   parser = PDFParser(f)

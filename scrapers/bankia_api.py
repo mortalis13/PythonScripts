@@ -14,7 +14,6 @@ from base64 import b64decode, b64encode
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5
 
-
 def run():
   headers_common = {
     'x-j_gid_cod_app': 'o3',

@@ -3,20 +3,17 @@
 
 # pip install requests
 
-import requests, codecs, os
+import requests, os
 
 from modules.file_system_functions import *
 from modules.general_functions import *
 
+path = 'c:/urls.txt'
+output = 'c:/output/'
 
 def run():
-  fp = 'e:/Documents/urls.txt'
-  base_dir = 'e:/output/'
-  print('Prosessing ' + fp)
-  
-  f = codecs.open(fp, 'r', 'utf8')
-  urls = f.readlines()
-  f.close()
+  with open(path, 'r') as f:
+    urls = f.readlines()
   
   i = 1
   
@@ -32,12 +29,10 @@ def run():
     content = req.content
     headers = req.headers
     
-    fpout = base_dir + file_name
-    f = codecs.open(fpout, 'wb')
-    f.write(content)
-    f.close()
+    file = os.path.join(output, file_name)
+    with open(file, 'wb') as f:
+      f.write(content)
     
     i += 1
-
 
 run()

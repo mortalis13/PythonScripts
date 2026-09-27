@@ -1,10 +1,9 @@
 # Finds artcle with max body size in a DSL dictionary
 
-import codecs
+dictionary = 'data/EsEn_Vox_School.dsl'
 
 def run():
-  fp = 'data/EsEn_Vox_School.dsl'
-  f = codecs.open(fp, 'r', 'utf16')
+  f = open(dictionary, 'r', encoding='utf16')
   
   i = 1
   maxLine = 0
@@ -31,6 +30,5 @@ def run():
     
   f.close()
   print(maxLine)
-
 
 run()

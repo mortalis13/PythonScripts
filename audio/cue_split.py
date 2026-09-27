@@ -15,6 +15,7 @@ import enum
 
 source_formats = ['flac', 'ape', 'wav']
 
+
 class Context(enum.Enum):
   ALBUM = 0
   TRACK = 1

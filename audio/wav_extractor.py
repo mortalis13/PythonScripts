@@ -15,7 +15,6 @@
 # The output WAV files are named according to the pattern 'audio_001.wav'
 
 import os
-import codecs
 
 files = [
   '../data/MinionVoiceData_ENGLISH.pvp',
@@ -23,35 +22,35 @@ files = [
 out_dir = '../data/wavs'
 
 
-def write_wav(f, out_path):
-  print('..write_wav(): {}'.format(out_path))
+def write_wav(source_file, out_path):
+  print(os.path.basename(out_path))
   
-  fo = codecs.open(out_path, 'wb')
-  fo.write(b'RIFF')
+  out_file = open(out_path, 'wb')
+  out_file.write(b'RIFF')
   
   finder = b'    '
   while True:
-    b = f.read(1)
-    fo.write(b)
+    b = source_file.read(1)
+    out_file.write(b)
     
     finder += b
     finder = finder[1:]
     if finder == b'data':
-      size_b = f.read(4)
-      fo.write(size_b)
+      size_b = source_file.read(4)
+      out_file.write(size_b)
       
       datasize = int.from_bytes(size_b, 'little')
-      wav_data = f.read(datasize)
-      fo.write(wav_data)
+      wav_data = source_file.read(datasize)
+      out_file.write(wav_data)
       break
-  fo.close()
+  out_file.close()
 
 
-def extract_audio(fp, out_dir):
-  print('..extract_audio(): {}\n'.format(fp))
-  f = codecs.open(fp, 'rb')
+def extract_audio(path, out_dir):
+  print(f'Extracting audio from "{path}"\n')
+  f = open(path, 'rb')
   
-  out_dir += '/' + os.path.splitext(os.path.basename(fp))[0] + '/'
+  out_dir += '/' + os.path.splitext(os.path.basename(path))[0] + '/'
   if not os.path.exists(out_dir):
     os.makedirs(out_dir)
 
@@ -72,5 +71,9 @@ def extract_audio(fp, out_dir):
   f.close()
 
 
-for fp in files:
-  extract_audio(fp, out_dir)
+def run():
+  for file in files:
+    extract_audio(file, out_dir)
+
+
+run()

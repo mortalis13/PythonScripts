@@ -22,6 +22,7 @@ os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 config = {}
 
+
 def auth():
   token_name = f'token_{API_SERVICE_NAME}.pickle'
 

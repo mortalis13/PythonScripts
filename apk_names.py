@@ -5,9 +5,10 @@ import os
 import subprocess
 from dataclasses import dataclass
 
+folder = '/apk-files'
+
 os.environ['PATH'] = '/android-sdk/build-tools/35.0.0'
 
-folder = '/apk-files'
 
 @dataclass
 class ApkInfo:

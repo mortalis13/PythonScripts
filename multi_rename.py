@@ -3,8 +3,8 @@
 import os
 
 rename_map = {
-  "from_path_1": "to_path_1",
-  "from_path_2": "to_path_2",
+  'from_path_1': 'to_path_1',
+  'from_path_2': 'to_path_2',
 }
 
 def run():

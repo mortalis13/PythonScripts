@@ -1,17 +1,17 @@
-import os, re, codecs, subprocess
-import shutil, stat, errno, sys, operator
+import os, stat, sys
 
 from modules.general_functions import *
-
 
 def get_filenames(root_dir):
   for root, dirs, files in os.walk(root_dir):
     return files
 
+
 def get_dirnames(root_dir):
   for root, dirs, files in os.walk(root_dir):
     return dirs
-    
+
+
 def get_dirpaths(root_dir):
   res_list = []
   
@@ -20,7 +20,8 @@ def get_dirpaths(root_dir):
       res_list.append(os.path.normpath(os.path.join(root, dirr)))
       
     return res_list
-    
+
+
 def get_filepaths(root_dir, group_by=None):
   files_list = []
   
@@ -40,7 +41,8 @@ def get_filepaths(root_dir, group_by=None):
       return files_list_dict
     
     return files_list
-    
+
+
 def get_filenames_ext(root_dir, ext):
   res = []
   
@@ -50,6 +52,7 @@ def get_filenames_ext(root_dir, ext):
       if len(file_ext) != 0 and file_ext[1:].lower() == ext:
         res.append(file)
     return res
+
 
 def get_filenames_in_tree_ext(root_dir, ext):
   res = []
@@ -62,6 +65,7 @@ def get_filenames_in_tree_ext(root_dir, ext):
         
   return res
 
+
 def get_filenames_in_tree(root_dir):
   files_list = []
   
@@ -70,6 +74,7 @@ def get_filenames_in_tree(root_dir):
       files_list.append(file)
 
   return files_list
+
 
 def get_full_tree(root_dir):
   files_list = []
@@ -83,6 +88,7 @@ def get_full_tree(root_dir):
 
   return (files_list, dirs_list)
 
+
 def get_filepaths_in_tree(root_dir):
   files_list = []
   
@@ -91,7 +97,8 @@ def get_filepaths_in_tree(root_dir):
       files_list.append(os.path.normpath(os.path.join(root, file)))
 
   return files_list
-  
+
+
 def get_filepaths_in_tree_ext(root_dir, ext):
   files_list = []
   
@@ -102,7 +109,8 @@ def get_filepaths_in_tree_ext(root_dir, ext):
         files_list.append(os.path.normpath(os.path.join(root, file)))
 
   return files_list
-  
+
+
 def get_filepaths_in_tree_filter_dirs(root_dir, exclude_dirs):
   files_list = []
   
@@ -119,6 +127,7 @@ def get_filepaths_in_tree_filter_dirs(root_dir, exclude_dirs):
       files_list.append(os.path.normpath(os.path.join(root, file)))
 
   return files_list
+
 
 def get_filepaths_in_tree_ext_filter_dirs(root_dir, ext, exclude_dirs):
   files_list = []
@@ -138,6 +147,7 @@ def get_filepaths_in_tree_ext_filter_dirs(root_dir, ext, exclude_dirs):
         files_list.append(os.path.normpath(os.path.join(root, file)))
 
   return files_list
+
 
 def get_extensions_in_tree(root_dir):
   ext_list = {}
@@ -164,9 +174,7 @@ def remove_files(folder, remove_root):
       print('Removing directory: ' + root)
     
     dir_path = ''
-    
     path_sep = '\\'
-    # path_sep = '/'
     
     try:
       root = os.path.normpath(root)
@@ -252,10 +260,10 @@ def get_tree_list(root_dir, exts):
       
       for file in out_files:
         res_tree[root].append(file)
-      
-  
+
+
 def write_tree_list(root_dir, exts, res_filepath):
-  res_file = codecs.open(res_filepath, encoding='utf-8', mode='w')
+  res_file = open(res_filepath, 'w', encoding='utf-8')
   root_len = len(root_dir)
   
   for root, dirs, files in os.walk(root_dir):

@@ -2,8 +2,9 @@
 # Needs text files with direct tabs urls generated in a separate script
 # Performs downloads by parts
 
-import os, codecs
-import time, random
+import os
+import time
+import random
 import sys
 
 from modules.file_system_functions import *
@@ -12,7 +13,6 @@ from modules.general_functions import *
 import requests
 
 # Content-Disposition: attachment; filename="Falkenbach - As Long As Winds Will Blow (guitar pro).gp5"; filename*=utf-8''Falkenbach%20-%20As%20Long%20As%20Winds%20Will%20Blow%20%28guitar%20pro%29.gp5
-
 
 # -----------------------------------------------------
 
@@ -47,21 +47,19 @@ def run():
     print('\nStarting part ' + part_id + ' [' + time.strftime("%H:%M:%S", time.gmtime()) + ']\n-----------')
     
     fp = base_path + '/tab_ids_' + part_id + '.txt'
-    f = codecs.open(fp, 'r', 'utf-8')
-    lines = f.readlines()
-    f.close()
+    with open(fp, 'r', encoding='utf-8') as f:
+      lines = f.readlines()
     
     fp_log = base_path + '/logs/log_' + part_id + '.txt'
     fp_error_log = base_path + '/logs/error_log_' + part_id + '.txt'
     
     if os.path.exists(fp_error_log) and os.stat(fp_error_log).st_size != 0:
-      f_error_log = codecs.open(fp_error_log, 'r', 'utf-8')
-      lines = f_error_log.readlines()
-      f_error_log.close()
+      with open(fp_error_log, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
       print('Processing unfinished downloads for the part, total [' + str(len(lines)) + ']')
     
-    f_log = codecs.open(fp_log, 'w', 'utf-8')
-    f_error_log = codecs.open(fp_error_log, 'w', 'utf-8')
+    f_log = open(fp_log, 'w', encoding='utf-8')
+    f_error_log = open(fp_error_log, 'w', encoding='utf-8')
     
     save_path = save_path_base + '/' + 'tabs_' + part_id
     if not os.path.exists(save_path):
@@ -99,9 +97,8 @@ def run():
         if len(res_filename):
           fp = save_path + '/' + res_filename
           fp = generate_next_filename(fp)
-          f = codecs.open(fp, 'wb')
-          f.write(content)
-          f.close()
+          with open(fp, 'wb') as f:
+            f.write(content)
           
         f_log.write(str(id) + ' :: ' + res_filename + '\n')
         f_log.flush()

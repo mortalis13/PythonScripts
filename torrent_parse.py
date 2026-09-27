@@ -5,15 +5,16 @@
 import os
 import sys
 
-from modules.file_system_functions import *
-
 import torrent_parser
+
+from modules.file_system_functions import *
 
 files = [
   'c:/torrents/01.torrent',
   'c:/torrents/02.torrent',
   'c:/torrents/03.torrent',
 ]
+
 
 def get_torrent_info(path):
   res = ''

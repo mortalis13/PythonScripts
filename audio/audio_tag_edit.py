@@ -14,7 +14,6 @@ title1
 title2
 """
 
-
 files = list(filter(None, files.split('\n')))
 titles = list(filter(None, titles.split('\n')))
 

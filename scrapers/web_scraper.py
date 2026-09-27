@@ -4,12 +4,11 @@
 
 # pip install requests pyquery
 
-import codecs, time
+import time
 from datetime import datetime
 
 import requests
 from pyquery import PyQuery as pq
-
 
 def process_url(url):
   text = ''
@@ -44,19 +43,16 @@ def run():
   # prefix = 'https://abc.net/forum?page='
   # urls = [prefix+str(x) for x in range(1,101)]
   
-  f = codecs.open('scrape_result.txt', 'w', 'utf-8')
+  with open('scrape_result.txt', 'w', encoding='utf-8') as f:
+    date_str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    f.write('[{}]\n'.format(date_str))
+    
+    print('Total:', len(urls))
+    for url in urls:
+      print('URL: ' + url)
+      text = process_url(url)
+      f.write(text + '\n')
+      time.sleep(0.2)
   
-  date_str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-  f.write('[{}]\n'.format(date_str))
-  
-  print('total:', len(urls))
-  for url in urls:
-    print('URL: ' + url)
-    text = process_url(url)
-    f.write(text + '\n')
-    time.sleep(0.2)
-  
-  f.close()
-  
-  
+
 run()

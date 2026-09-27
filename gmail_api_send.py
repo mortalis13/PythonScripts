@@ -17,6 +17,7 @@ API_VERSION = "v1"
 CLIENT_SECRETS_FILE = "credentials.json"
 SCOPES = ['https://mail.google.com/']
 
+
 def auth():
   token_name = f'token_{API_SERVICE_NAME}.pickle'
   

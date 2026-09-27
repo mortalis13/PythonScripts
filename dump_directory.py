@@ -2,11 +2,11 @@
 # Set the 'from_path' and 'out_path' variables before running
 
 import os
-import codecs
 import traceback
 
 from_path = 'd:/'
 result = 'd:/dir_tree.txt'
+
 
 def log(msg):
   try:
@@ -23,8 +23,8 @@ def run():
   if not os.path.exists(os.path.dirname(result)):
     os.makedirs(os.path.dirname(result))
   
-  error_log = codecs.open(error_log_path, encoding='utf-8', mode='w')
-  out = codecs.open(result, encoding='utf-8', mode='w')
+  error_log = open(error_log_path, 'w', encoding='utf-8')
+  out_file = open(result, 'w', encoding='utf-8')
   
   from_path = os.path.normpath(from_path)
   # ----------------------
@@ -51,22 +51,22 @@ def run():
     for item in items:
       if item.is_dir():
         dir_path = item.path.replace('\\\\?\\', '')
-        out.write(f'{indent}[{item.name}]\n')
-        out.write(f'{indent}<{dir_path}>\n')
+        out_file.write(f'{indent}[{item.name}]\n')
+        out_file.write(f'{indent}<{dir_path}>\n')
         scan(item.path, level+1)
       
       else:
         if i < num-1:
-          out.write(f'{indent}{item.name}\n')
+          out_file.write(f'{indent}{item.name}\n')
         else:
-          out.write(f'{indent[:-3]}\\  {item.name}\n')
+          out_file.write(f'{indent[:-3]}\\  {item.name}\n')
       
       i += 1
   
   scan('\\\\?\\' + from_path)
   
   error_log.close()
-  out.close()
+  out_file.close()
 
 
 run()

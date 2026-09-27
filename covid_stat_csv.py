@@ -2,12 +2,11 @@
 # Uses the 'countries' list as input data (change/add country names and number of last values to show in chart)
 # Data Source: https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_time_series
 
-import json, csv, requests, codecs, os
+import csv, requests, os
 from datetime import datetime
 from io import StringIO
 from io import BytesIO
 import xlsxwriter
-
 
 countries = [
   ['France', 80],
